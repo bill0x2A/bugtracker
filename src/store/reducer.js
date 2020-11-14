@@ -12,11 +12,11 @@ const reducer = ( state = initialState, action ) => {
                 ...state,
                 authUser : action.authUser,         
             }
-        case actionTypes.LOGOUT:
-            return {
-                ...state,
-                authUser : {},
-            }
+        // case actionTypes.LOGOUT:
+        //     return {
+        //         ...state,
+        //         authUser : {},
+        //     }
         default:
             return state
     }

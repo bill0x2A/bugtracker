@@ -7,7 +7,6 @@ import * as actionTypes from '../../store/actionTypes';
 
 const SignOut = ({ firebase }, props) => {
     const history = useHistory();
-
     return (
             <button type="button"
                     onClick={() => {

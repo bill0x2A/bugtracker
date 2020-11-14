@@ -23,6 +23,9 @@ const NavigationAuth = props => (
         <Link to={ROUTES.ACCOUNT}>Account</Link>
       </li>
       <li>
+        <Link to={ROUTES.PROJECTS}>Projects</Link>
+      </li>
+      <li>
         <SignOutButton />
       </li>
     </ul>

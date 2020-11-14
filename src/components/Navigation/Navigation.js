@@ -1,17 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import SignOutButton from '../SignOut/index';
  
 import * as ROUTES from '../../constants/routes';
+import classes from './Navigation.module.css';
+
+const Navigation = ({ authUser }) => (
+  <div>{authUser ? <NavigationAuth /> : <NavigationNonAuth />}</div>
+)
  
-const Navigation = () => (
-  <div>
-    <ul>
-      <li>
-        <Link to={ROUTES.LOG_IN}>Login</Link>
-      </li>
-      <li>
-        <Link to={ROUTES.SIGN_UP}>Sign Up</Link>
-      </li>
+const NavigationAuth = props => (
+  <nav className = {classes.Navbar}>
+    <h2>App Name</h2>
+    <ul className = {classes.NavbarNav}>
       <li>
         <Link to={ROUTES.LANDING}>Landing</Link>
       </li>
@@ -22,11 +23,28 @@ const Navigation = () => (
         <Link to={ROUTES.ACCOUNT}>Account</Link>
       </li>
       <li>
-        <Link to={ROUTES.ADMIN}>Admin</Link>
+        <SignOutButton />
       </li>
-
     </ul>
-  </div>
+  </nav>
 );
+
+const NavigationNonAuth = () => (
+  <nav className = {classes.Navbar}>
+    <h2>App Name</h2>
+    <ul className = {classes.NavbarNav}>
+      <li>
+        <Link to={ROUTES.LOG_IN}>Log In</Link>
+      </li>
+      <li>
+        <Link to={ROUTES.SIGN_UP}>Sign Up</Link>
+      </li>
+    </ul>
+  </nav>
+)
+
+const NavItem = props => (
+  <div className = {classes.NavItemWrapper}></div>
+)
 
 export default Navigation;

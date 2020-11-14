@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 
 import * as ROUTES from '../../constants/routes';
+import * as actionTypes from '../../store/actionTypes';
 import { withFirebase } from '../../Firebase/index';
+
+import { connect } from 'react-redux';
 
 const STARTER_STATE = {
     email : '',
@@ -36,6 +39,7 @@ class SignInFormBase extends Component {
         this.props.firebase.doSignInWithEmailAndPassword(email, password)
                            .then(user => {
                                this.setState({ ...STARTER_STATE});
+                               this.props.login(user);
                                this.props.history.push(ROUTES.HOME);
                            })
                            .catch(error => {
@@ -72,6 +76,12 @@ class SignInFormBase extends Component {
     }
 }
 
-const SignInForm = withRouter(withFirebase(SignInFormBase));
+const mapDispatchToProps = dispatch => (
+    {
+        login : authUser => dispatch({ type: actionTypes.LOGIN, authUser : authUser})
+    }
+)
+
+const SignInForm = connect(null, mapDispatchToProps)(withRouter(withFirebase(SignInFormBase)));
 
 export default SignIn;

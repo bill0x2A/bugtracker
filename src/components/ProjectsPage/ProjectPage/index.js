@@ -1,27 +1,49 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { withFirebase } from '../../../Firebase';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, useParams } from 'react-router-dom';
 import * as ROUTES from '../../../constants/routes';
 
-const ProjectPage = props => {
-    props.firebase.users(props.authUser.user.uid).ref.on("value", function(snapshot) {
-        console.log(snapshot.val());
-      }, function (errorObject) {
-        console.log("The read failed: " + errorObject.code);
-      });
-    return (
-        <div>
-            {props.firebase.projects().once("value", snap => (
-                <div>{snap.val()}</div>
-            ))}
-        </div>
-    )
+class ProjectPage extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            loading : true,
+        }
+    }
+
+    componentDidMount() {
+        this.getProjectData();
+    }
+
+    getProjectData = () => {
+        this.props.firebase.project(this.props.pid)
+                           .once("value")
+                           .then( dataSnapshot => {
+                               const project = dataSnapshot.val();
+                               this.setState({loading:false, project : project})
+                           })
+    }
+
+    render (){
+        const { project, loading } = this.state;
+        return (
+            loading ? (
+                <div>Loading content...</div>
+            ) : (
+                <div>
+                    <h1>{project.name}</h1>
+                </div>
+            )
+        )
+    }
 }
 
 const ProjectPageWithAuth = props => {
+    const pid = useParams().id;
     if(props.authUser.user.uid){
-        return ProjectPage
+        return <ProjectPage {...props} pid ={pid} />
     } else {
         props.history.push(ROUTES.LANDING);
     }
@@ -33,4 +55,4 @@ const mapStateToProps = state => {
     })
 } 
 
-export default withRouter(withFirebase(connect(mapStateToProps, null)(ProjectPageWithAuth)));
+export default withRouter(withFirebase(connect(mapStateToProps)(ProjectPageWithAuth)));

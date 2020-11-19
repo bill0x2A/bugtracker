@@ -1,0 +1,24 @@
+.User {
+    display: flex;
+    width: 100%;
+    height: 50px;
+    border-bottom : 1px solid grey;
+    align-items: center;
+    justify-content: space-evenly;
+    border-radius: 5px;
+    background-color: var(--bg-accent);
+    box-shadow: 2px 2px 3px rgba(0,0,0,0.2);
+    transition: all 300ms;
+}
+
+.User:hover {
+    transform: translateX(5px);
+    filter : contrast(120%);
+}
+
+.User img {
+    height : 40px;
+    width:  40px;
+    border-radius: 50%;
+    -webkit-user-drag: none;
+}

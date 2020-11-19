@@ -11,7 +11,7 @@ const Navigation = ({ authUser }) => (
  
 const NavigationAuth = props => (
   <nav className = {classes.Navbar}>
-    <h2>App Name</h2>
+    <h2>Bugsmasher</h2>
     <ul className = {classes.NavbarNav}>
       <li>
         <Link to={ROUTES.LANDING}>Landing</Link>

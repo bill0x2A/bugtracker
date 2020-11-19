@@ -7,10 +7,14 @@ const initialState = {
 const reducer = ( state = initialState, action ) => {
     switch(action.type) {
         case actionTypes.LOGIN:
-            console.dir(action)
             return {
                 ...state,
                 authUser : action.authUser,         
+            }
+        case actionTypes.SELECT_BUG:
+            return {
+                ...state,
+                selectedBug : action.bugID
             }
         // case actionTypes.LOGOUT:
         //     return {

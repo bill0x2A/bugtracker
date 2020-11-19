@@ -47,6 +47,7 @@ class App extends Component {
             <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
             <Route path={ROUTES.LOG_IN} component={SignInPage} />
             <Route path={ROUTES.HOME} component={HomePage} />
+            <Route path={ROUTES.BUG} component={ProjectPage} />
             <Route path={ROUTES.PROJECT} component={ProjectPage} />
             <Route exact path={ROUTES.PROJECTS} component={ProjectsPage} />
             <Route render = {() => <h1>404, page not found</h1>} />

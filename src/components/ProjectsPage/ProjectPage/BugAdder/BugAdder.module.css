@@ -1,0 +1,131 @@
+.BugAddForm input {
+    display: block;
+}
+
+textarea {
+    width: 100%;
+    background-color: lightgray;
+    resize: vertical;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: none;
+    overflow: auto;
+    outline: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+textarea:active{
+    border: none;
+}
+
+input[type=text] {
+    margin-bottom: 5px;
+    padding: 5px 10px;
+    max-width: 50%;
+    border: none;
+    border-radius: 5px;
+    background-color: lightgray;
+    overflow: auto;
+    outline: none;
+
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+
+
+.UrgencySelector {
+    display: flex;
+    max-width: 250px;
+    background-color: lightgray;
+    border-radius: 5px;
+    align-items: center;
+    padding: 10px 15px;
+    justify-content: space-between;
+    margin-bottom : 10px;
+}
+
+.Green:after, .Yellow:after, .Red:after {
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+    top: -3px;
+    left: -1px;
+    position: relative;
+    background-color: #d1d3d1;
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    cursor: pointer;
+}
+
+.Green:after{
+    background-color: green;
+}
+
+.Yellow:after{
+    background-color: yellow;
+}
+
+.Red::after{
+    background-color: red;
+}
+
+input[type='radio']:checked:after {
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+    top: -5px;
+    left: -2px;
+    position: relative;
+    display: inline-block;
+    visibility: visible;
+    border: 2px solid black;
+}
+
+Button {
+    border: none;
+    color: white;
+    padding: 6px 17px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.BugAdder {
+    width: 70%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.BugAddForm {
+    width: 70%;
+    min-width: 450px;
+}
+
+.NewSection {
+    display: flex;
+    justify-content: space-between;
+    max-width: 450px;
+    margin : 20px 0;
+}
+
+.NewSection span {
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    width: 120px;
+    height: 30px;
+    background-color: gray;
+    padding: 5px 10px;
+    user-select: none;
+    cursor: pointer;
+    border-radius: 5px;
+    color: white;
+}

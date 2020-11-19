@@ -19,7 +19,7 @@ class Firebase {
 
     this.auth = app.auth();
     this.db = app.database();
-    console.log(this.auth)
+
   }
 
   // ### AUTH API ###
@@ -42,16 +42,22 @@ class Firebase {
     this.auth.currentUser.updatePassword(password);
   }
 
- // ### USER API ####
+ // ### CONTENT API ####
 
  user = uid => this.db.ref(`users/${uid}`);
-
  users = () => this.db.ref('users');
 
- project = pid => this.db.ref(`projects/${pid}`);
-
+ project = projectID => this.db.ref(`projects/${projectID}`);
  projects = () => this.db.ref('projects');
 
+ bug = bugID => this.db.ref(`bugs/${bugID}`);
+ bugs = () => this.db.ref('bugs');
+
+ comment = commentID => this.db.ref(`comments/${commentID}`)
+ comments = () => this.db.ref('comments');
+
+ action = actionID => this.db.ref(`actions/${actionID}`);
+ actions = () => this.db.ref('actions');
 }
 
 export default Firebase;

@@ -1,0 +1,205 @@
+.Selected {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: block;
+    background: lightgray;
+    transition: all 500ms;
+
+    padding: 20px 40px;
+    padding-top: 1px;
+
+    border-radius: 5px;
+
+    color: black;
+
+}
+
+.Selected h3 {
+    margin-top: 10px;
+    font-size: 25px;
+}
+
+.Selected a {
+    display: none;
+}
+
+
+.Selected .Header {
+    position: absolute;
+    top:0;
+    left: 0;
+    height: 100%;
+    width: 20px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.Selected .Image {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    display: block;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.UrgencySelector {
+    position: absolute;
+    top: 0;
+    right : 0;
+    display: flex;
+    width: 250px;
+    height: 30px;
+    background-color: gray;
+    border-radius: 5px;
+    border-top-left-radius: 0;
+    border-bottom-right-radius: 0;
+    align-items: center;
+    padding: 0px 15px;
+    justify-content: space-between;
+    margin-bottom : 10px;
+}
+
+.UrgencySelector p {
+    color: white;
+    margin: 0;
+}
+
+.Button {
+    background: var(--bg);
+    border-radius: 3px;
+}
+
+.Inputs {
+    width: 99px;
+    display: flex;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.Green, .Yellow, .Red{
+    width: 33px;
+    height: 30px;
+    border-radius: 0px;
+    position: relative;
+    background-color: #d1d3d1;
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    cursor: pointer;
+}
+
+.Green{
+    background-color: green;
+    border-top-right-radius: 5px;
+}
+
+.Yellow{
+    background-color: yellow;
+}
+
+.Red{
+    background-color: red;
+}
+
+.Green:hover{
+    background-color: lightgreen;
+}
+
+.Yellow:hover {
+    background-color:#feffb8;
+}
+
+.Red:hover {
+    background-color: salmon;
+}
+
+input[type='radio']:checked:after {
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+    top: -5px;
+    left: -2px;
+    position: relative;
+    display: inline-block;
+    visibility: visible;
+    border: 2px solid black;
+}
+
+.NewCommentForm {
+    border-top: 2px solid gray;
+    display: flex;
+    flex-direction: column;
+}
+
+.NewSection {
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+.NewSection span {
+    background: var(--bg);
+    color: var(--text-colour);
+    padding: 5px 10px;
+    border-radius: 3px;
+    margin-right : 5px;
+    user-select: none;
+    cursor: pointer;
+    transition: all 200ms;
+}
+
+.NewSection span:hover {
+    filter: contrast(120%);
+}
+
+.NewCommentForm button {
+    background: var(--bg);
+}
+
+.Comment {
+    position: relative;
+    width: 100%;
+    background: #bdbdbd;
+    padding: 10px 15px;
+    margin: 10px 0;
+    border-radius: 3px;
+}
+
+.CommentHeader {
+    background-color: var(--lighter);
+    position: absolute;
+    top: 0;
+    left : 0;
+    width: 100%;
+    height: 35px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    padding: 5px 15px;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+}
+
+.CommentBody {
+    margin-top: 30px;
+}
+
+.Comment img {
+    border-radius: 5px;
+    max-height: 500px;
+    max-width: 100%;
+}
+
+.Comment h3 {
+    margin : 0;
+    color: var(--text-colour);
+    font-size : 18px;
+}
+
+.Comment h4 {
+    margin : 0;
+    color: var(--text-colour);
+    font-size : 14px
+}

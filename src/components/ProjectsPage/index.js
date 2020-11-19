@@ -39,13 +39,16 @@ class AddProjectForm extends Component {
         const projectData = {
             name : this.state.name,
             admins : [creatorUID],
-            users : [creatorUID]
+            users : [creatorUID],
+            bugs : [],
         }
 
         const projectID = this.state.name.toLowerCase().replace(/\s/g,'-') + '-' + Math.random().toString(36).substr(2, 9);
 
         this.props.firebase.project(projectID).set(projectData);
         this.props.firebase.user(creatorUID).child('projects').push(projectID);
+
+        this.props.history.go(0);
     }
 
     onChange = e => {
@@ -57,14 +60,17 @@ class AddProjectForm extends Component {
                            .child('projects')
                            .once("value")
                            .then(dataSnapshot => {
-                               const projectIDs = Object.values(dataSnapshot.val());
-                               console.log(projectIDs);
+                               let projectIDs = null;
+                               if(dataSnapshot.val() != null){
+                                    projectIDs = Object.values(dataSnapshot.val());
+                                }
                                this.setState({projectIDs : projectIDs, loading : false});
                            });
     }
 
     componentDidMount() {
         this.getData();
+        console.log(this.props);
     }
 
     render() {
@@ -87,8 +93,10 @@ class AddProjectForm extends Component {
                 <div>
                     <h1>My Projects</h1>
                     {
-                        !this.state.loading ? 
-                            this.state.projectIDs.map(projectID => <Project key = {projectID} {...this.props} pid = {projectID} />) :
+                        !this.state.loading ?
+                            (this.state.projectIDs ?
+                                this.state.projectIDs.map(projectID => <Project key = {projectID} {...this.props} pid = {projectID} />) : 
+                                <p>No projects found</p>) :
                             <p>Loading projects...</p>
                     }
                 </div>
@@ -137,18 +145,16 @@ class Project extends Component {
 
 
 const ProjectsPage = props => {
-    console.log(!isEmpty(props.authUser));
+
     if(!isEmpty(props.authUser)){
         return(
             <div>
-                {React.createElement(withFirebase(connect(mapStateToProps,mapDispatchToProps)(AddProjectForm)))}
+                <AddProjectForm {...props} />
             </div>
         )
     } else {
         props.history.push(ROUTES.LOG_IN)
-        return(
-            <div></div>
-        )
+        return <br/>
     }
 }
 
@@ -164,4 +170,4 @@ const mapDispatchToProps = dispatch => (
     }
 )
 
-export default withRouter(connect(mapStateToProps,mapDispatchToProps)(ProjectsPage));
+export default withFirebase(withRouter(connect(mapStateToProps,mapDispatchToProps)(ProjectsPage)));

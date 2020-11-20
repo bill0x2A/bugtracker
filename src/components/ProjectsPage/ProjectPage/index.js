@@ -283,7 +283,7 @@ class Notification extends Component {
 const ProjectPageWithAuth = props => {
     const projectID = useParams().id;
     if(props.authUser.user.uid){
-        return <ProjectPage {...props} pid = {projectID} />
+        return <ProjectPage auth {...props} pid = {projectID} />
     } else {
         props.history.push(ROUTES.LANDING);
         return <hr/>

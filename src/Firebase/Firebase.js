@@ -58,6 +58,9 @@ class Firebase {
 
  action = actionID => this.db.ref(`actions/${actionID}`);
  actions = () => this.db.ref('actions');
+
+ invite = inviteID => this.db.ref(`invites/${inviteID}`);
+ invites = () => this.db.ref('invites');
 }
 
 export default Firebase;

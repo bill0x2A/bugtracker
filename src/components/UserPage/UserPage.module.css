@@ -1,0 +1,101 @@
+.Container {
+    padding: 20px 40px;
+}
+
+.BasicInfoContainer {
+    display: flex;
+    width : 300px;
+    height : 100px;
+    align-items: center;
+    justify-content: flex-end;
+    color : var(--text-colour);
+    margin: 10px 0;
+    margin-bottom : 30px;
+    padding-right: 30px;
+    background: var(--bg);
+    border-radius: 5px;
+    position: relative;
+    left : 50px;
+}
+
+.BasicInfoContainer img {
+    height : 120px;
+    width: 120px;
+    border-radius: 50%;
+    border : 4px solid var(--bg);
+    position: absolute;
+    left : -50px;
+}
+
+.Button {
+    background: var(--bg);
+    border-radius: 4px;
+    transition: filter 100ms;
+}
+
+.Button:hover {
+    filter: contrast(80%)
+}
+
+.Main {
+    display: flex;
+    justify-content: space-between;
+}
+
+.InvitesContainer {
+    height: 500px;
+    width : 300px;
+    border-radius: 5px;
+    background: var(--bg);
+    padding-top: 15px;
+    padding-left: 15px;
+    color: var(--text-colour);
+}
+
+.InvitesContainer h2 {
+    margin-top: 0;
+}
+
+.FriendInvite {
+    width: 100%;
+    height: 50px;
+    background-color: var(--bg-accent);
+    display: flex;
+    font-size : 18px;
+    margin-bottom: 10px;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+    color: var(--text-colour);
+}
+
+.Accept {
+    background-color: green;
+}
+
+.Ignore {
+    background: red;
+}
+
+.InviteBody {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.InviteBody button {
+    height: 50px;
+    width: 60px;
+    padding: 0 5px;
+    font-size: 15px;
+    font-weight: bolder;
+    border-top: 2px solid var(--bg-accent);
+    border-bottom: 2px solid var(--bg-accent);
+}
+
+.InviteBody img {
+    height: 50px;
+    width : 50px;
+    border-radius: 50%;
+    border: 3px solid var(--bg-accent);
+}

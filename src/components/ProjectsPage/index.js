@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { withRouter } from 'react-router';
 import classes from './Projects.module.css';
 import { isEmpty } from 'lodash';
+import Project from '../ProjectDisplay/index';
 
 import * as ROUTES from '../../constants/routes';
 
@@ -55,24 +56,6 @@ class AddProjectForm extends Component {
         this.setState({ [e.target.name] : e.target.value });
     }
 
-    getData = () => {
-        this.props.firebase.user(this.props.authUser.user.uid)
-                           .child('projects')
-                           .once("value")
-                           .then(dataSnapshot => {
-                               let projectIDs = null;
-                               if(dataSnapshot.val() != null){
-                                    projectIDs = Object.values(dataSnapshot.val());
-                                }
-                               this.setState({projectIDs : projectIDs, loading : false});
-                           });
-    }
-
-    componentDidMount() {
-        this.getData();
-        console.log(this.props);
-    }
-
     render() {
    
         return (
@@ -90,59 +73,10 @@ class AddProjectForm extends Component {
                 <button type="submit">Submit</button>
                 </form>
                 <hr/>
-                <div>
-                    <h1>My Projects</h1>
-                    {
-                        !this.state.loading ?
-                            (this.state.projectIDs ?
-                                this.state.projectIDs.map(projectID => <Project key = {projectID} {...this.props} pid = {projectID} />) : 
-                                <p>No projects found</p>) :
-                            <p>Loading projects...</p>
-                    }
-                </div>
             </div>
         )
     }
 }
-
-class Project extends Component {
-    constructor(props){
-        super(props)
-        this.state = {
-            loading:true,
-        }
-    }
-
-    componentDidMount(){
-        this.getData();
-    }
-
-    getData = () => {
-        this.props.firebase.project(this.props.pid)
-                           .once("value")
-                           .then(dataSnapshot => {
-                               const project = dataSnapshot.val();
-                               this.setState({project : project, loading : false})
-                           })
-    }
-    render(){
- 
-        const {project, loading} = this.state;
-        const path = ROUTES.PROJECTS + '/' + this.props.pid;
-        return loading ? (
-            <div>
-                loading...
-            </div>
-        ) : (
-            <div>
-              <h2>{project.name}</h2>
-              <Link to={path}>Go to Project Page</Link>
-            </div>
-        )
-    }
-}
-    
-
 
 const ProjectsPage = props => {
 

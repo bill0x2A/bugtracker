@@ -1,0 +1,46 @@
+.Project {
+    width : 500px;
+    background-color: slategray;
+    height : 150px;
+    padding : 0px 0px;
+    margin : 10px 0;
+    border-radius: 5px;
+
+}
+
+.ProjectHeader {
+    width: 100%;
+    height : 35px;
+    padding : 5px 15px;
+    padding-bottom : 5px;
+    background: lightgray;
+    position: relative;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+
+}
+
+.ProjectHeader h2 {
+    margin : 0;
+    font-size : 20px;
+}
+
+.ProjectBody{
+    position: relative;
+    height : calc(100% - 35px);
+
+}
+
+.ProjectBody a {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    padding: 5px 15px;
+    background: var(--bg-accent);
+    border-radius: 4px;
+    transition: filter 100ms;
+}
+
+.ProjectBody a:hover {
+    filter: contrast(120%);
+}

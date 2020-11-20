@@ -8,3 +8,4 @@ export const LOG_IN   = '/log-in';
 export const PROJECTS = '/projects';
 export const PROJECT  = '/projects/:id';
 export const BUG      = '/projects/:id/:bid';
+export const USER     = '/users/:uid';

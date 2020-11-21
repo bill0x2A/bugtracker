@@ -78,7 +78,7 @@ class AddProjectForm extends Component {
     }
 }
 
-const ProjectsPage = props => {
+const NewProjectPage = props => {
 
     if(!isEmpty(props.authUser)){
         return(
@@ -104,4 +104,4 @@ const mapDispatchToProps = dispatch => (
     }
 )
 
-export default withFirebase(withRouter(connect(mapStateToProps,mapDispatchToProps)(ProjectsPage)));
+export default withFirebase(withRouter(connect(mapStateToProps,mapDispatchToProps)(NewProjectPage)));

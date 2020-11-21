@@ -19,8 +19,8 @@ code {
 
 
 :root {
-  --bg : #12232E;
-  --bg-accent:#203647;
+  --bg : #203647;
+  --bg-accent:#12232E;
   --lighter : #007CC7;
   --lightest : #4DA8DA;
   --text-colour: #dadce1;

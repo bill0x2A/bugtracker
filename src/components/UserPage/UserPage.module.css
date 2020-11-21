@@ -4,14 +4,13 @@
 
 .BasicInfoContainer {
     display: flex;
-    width : 300px;
     height : 100px;
     align-items: center;
     justify-content: flex-end;
     color : var(--text-colour);
     margin: 10px 0;
     margin-bottom : 30px;
-    padding-right: 30px;
+    padding-right: 60px;
     background: var(--bg);
     border-radius: 5px;
     position: relative;
@@ -19,8 +18,8 @@
 }
 
 .BasicInfoContainer img {
-    height : 120px;
-    width: 120px;
+    height : 100px;
+    width: 100px;
     border-radius: 50%;
     border : 4px solid var(--bg);
     position: absolute;
@@ -66,6 +65,39 @@
     border-top-left-radius: 25px;
     border-bottom-left-radius: 25px;
     color: var(--text-colour);
+}
+
+.Friend {
+    width: 285px;
+    position: relative;
+    height: 50px;
+    background-color: var(--bg-accent);
+    display: flex;
+    font-size : 18px;
+    margin-bottom: 10px;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+    color: var(--text-colour);
+    transition: all 100ms;
+}
+.Friend:hover {
+    filter : contrast(110%);
+    transform: translateX(-3px);
+    width: 288px;
+}
+
+.FriendBody {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.FriendBody img {
+    height: 50px;
+    width : 50px;
+    border-radius: 50%;
+    border: 3px solid var(--bg-accent);
 }
 
 .Accept {

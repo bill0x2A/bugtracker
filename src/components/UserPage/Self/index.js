@@ -45,22 +45,22 @@ class HomePage extends Component {
         let projectIDs = null;
         try {
             projectIDs = [...Object.values(this.state.user.projects)];
+            projectIDs.forEach(pid => {
+                this.props.firebase.project(pid)
+                                   .once("value")
+                                   .then(dataSnapshot => {
+                                       let projects = [...this.state.projects];
+                                       const newProject = {
+                                           ...dataSnapshot.val(),
+                                           pid : pid,
+                                       }
+                                       projects.push(newProject);
+                                       this.setState({ projects:projects, loadingProjects:false });
+                                   })
+            })            
         } catch(e) {
-
+            this.setState({projects : [], loadingProjects : false});
         }
-        projectIDs.forEach(pid => {
-            this.props.firebase.project(pid)
-                               .once("value")
-                               .then(dataSnapshot => {
-                                   let projects = [...this.state.projects];
-                                   const newProject = {
-                                       ...dataSnapshot.val(),
-                                       pid : pid,
-                                   }
-                                   projects.push(newProject);
-                                   this.setState({ projects:projects, loadingProjects:false });
-                               })
-        })
     }
 
     loadFriendsToState = () => {
@@ -71,7 +71,10 @@ class HomePage extends Component {
                                    .once("value")
                                    .then(dataSnapshot => {
                                        let friends = [...this.state.friends];
-                                       const newFriend = dataSnapshot.val();
+                                       const newFriend = {
+                                           ...dataSnapshot.val(),
+                                           id : uid,
+                                       }
                                        friends.push(newFriend);
                                        this.setState({ friends:friends, loadingFriends:false });
                                    })
@@ -83,6 +86,7 @@ class HomePage extends Component {
                     this.setState({ userIsFriend:true })
                 }                              
             } catch(e) {
+                this.setState({friends : [], loadingFriends : false});
         }
     }
 
@@ -116,7 +120,7 @@ class HomePage extends Component {
             })
         }
         catch(e) {
-
+            this.setState({friendInvites : [], projectInvites : [], loadingProjectInvites : false, loadingFriendInvites : false});
         }
     }
 
@@ -144,6 +148,9 @@ class HomePage extends Component {
                         {this.state.loadingProjects ? <p>Loading...</p> : this.state.projects.map(project => (
                             <Project key={project.pid} project={project} />
                         ))}
+                        <div>
+
+                        </div>
                     </div>
                     <div className={classes.InvitesContainer}>
                         <h2>Friends</h2>
@@ -154,14 +161,28 @@ class HomePage extends Component {
                         )}
                     </div>
                     <div className={classes.InvitesContainer}>
+                        <h2>Friend Requests</h2>
                         {this.state.loadingFriendInvites ? <p>Loading...</p> : (
                             <React.Fragment>
-                                <h2>Friend Requests</h2>
                                 {this.state.friendInvites.map(friendInvite => (
-                                    <FriendInvite
+                                    <Invite
+                                        friend
                                         key={friendInvite.id}
                                         data={friendInvite}
                                         firebase={this.props.firebase}
+                                    />)
+                                )}
+                            </React.Fragment>
+                        )}
+                        <h2>Project Invites</h2>
+                        {this.state.loadingProjectInvites ? <p>Loading...</p> : (
+                            <React.Fragment>
+                                {this.state.projectInvites.map(projectInvite => (
+                                    <Invite
+                                        key={projectInvite.id}
+                                        data={projectInvite}
+                                        firebase={this.props.firebase}
+                                        project
                                     />)
                                 )}
                             </React.Fragment>
@@ -177,9 +198,9 @@ const Friend = props => {
     const { user } = props;
 
     return (
-        <Link to="">
-        <div className = {classes.FriendInvite}>
-                    <div className={classes.InviteBody}>
+        <Link to={`/users/${user.id}`}>
+        <div className = {classes.Friend}>
+                    <div className={classes.FriendBody}>
                     <img src={testpp}></img>
                     <span>{user.username}</span>
                     <div>
@@ -190,7 +211,7 @@ const Friend = props => {
     )
 }
 
-class FriendInvite extends Component {
+class Invite extends Component {
     constructor(){
         super();
         this.state = {

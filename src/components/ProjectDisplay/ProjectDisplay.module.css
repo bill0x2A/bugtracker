@@ -13,7 +13,7 @@
     height : 35px;
     padding : 5px 15px;
     padding-bottom : 5px;
-    background: lightgray;
+    background: var(--bg-accent);
     position: relative;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;

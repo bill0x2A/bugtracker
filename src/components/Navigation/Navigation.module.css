@@ -1,19 +1,26 @@
 .Navbar {
     width : 100%;
     height: var(--nav-size);
-    background: var(--bg);
-    padding : 0 1rem;
-    border-bottom : var(--border);
+
+    padding : 7px 40px;
+
     display: flex;
     justify-content: space-between;
+    align-self: center;
 }
 
 .Navbar h2 {
-    color: var(--text-colour);
+    color: var(--bg-accent);
     margin: 0;
     height: 100%;
     position: relative;
+    font-weight: bold;
     top: 20%;
+}
+
+.Navbar img {
+    height: calc(var(--nav-size) - 10px);
+    width: auto;
 }
 
 .NavbarNav {
@@ -24,27 +31,29 @@
     align-items: center;
 }
 
-.NavbarNav li {
+.NavbarNav a, .Navbar button {
     display: flex;
     align-items: center;
     justify-content: center; 
     height: calc(var(--nav-size) * 0.5);
-    background: var(--bg-accent);
+    border: 3px solid white;
+    color: white;
     border-radius: 5px;
     padding : 0 1em;
     margin : 0 0.5em;
+    transition: all 100ms;
+}
+
+.Navbar button {
+    background: none;
+}
+
+.Navbar a:hover, .Navbar button:hover {
+    background-color: rgba(255,255,255,0.2);
 }
 
 .NavItemWrapper {
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.Navbar button {
-    border: none;
-    background-color: inherit;
-    color: var(--text-colour);
-    height: 100%;
-    width: 100%;
 }

@@ -9,7 +9,9 @@ body {
   font-family: 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: var(--lightest)
+  background: linear-gradient(-100deg, var(--bg) 59.45%, var(--lighter) 59.5%);
+  min-height: 100vh;
+  overflow-x: hidden
 }
 
 code {
@@ -20,6 +22,7 @@ code {
 
 :root {
   --bg : #203647;
+  --bg2 : #12232E;
   --bg-accent:#12232E;
   --lighter : #007CC7;
   --lightest : #4DA8DA;

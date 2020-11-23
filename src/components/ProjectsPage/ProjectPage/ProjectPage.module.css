@@ -1,20 +1,43 @@
 .Container {
-    padding : 10px;
+    padding: 20px 40px;
+    width: 100%;
+}
+
+.BodyContainer {
     display: flex;
+    padding-left: 15px;
     width: 100%;
     justify-content: space-around;
 }
 
 .Heading {
-    width: 100%;
-    height: 70px;
-    background-color: var(--lighter);
-    padding: 15px;
-    color: var(--text-colour);
+    display: flex;
+    height : 100px;
+    align-items: center;
+    justify-content: flex-start;
+    color : var(--text-colour);
+    margin: 10px 0;
+    margin-bottom : 30px;
+    padding-right: 60px;
+    background: var(--bg-accent);
+    border-radius: 5px;
+    position: relative;
+    left : 50px;
 }
+
+.HeadingCircle {
+    height : 100px;
+    width: 100px;
+    border-radius: 50%;
+    background: var(--bg-accent);
+    position: absolute;
+    left : -50px;
+}
+
 .Heading h1 {
-    margin-top: 0;
+    margin: 0;
     color: var(--text-colour);
+    z-index: 2;
 }
 
 .UserContainer {
@@ -25,6 +48,7 @@
 
 .UserContainer h2 {
     margin-top: 0;
+    color: var(--text-colour);
 }
 
 .Main {
@@ -42,6 +66,7 @@
 
 .Notifications h2 {
     margin-top: 0;
+    color: var(--text-colour);
 }
 
 .Notification {

@@ -4,6 +4,7 @@ import SignOutButton from '../SignOut/index';
  
 import * as ROUTES from '../../constants/routes';
 import classes from './Navigation.module.css';
+import logo from '../../assets/logo.png';
 
 const Navigation = ({ authUser }) => (
   <div>{authUser ? <NavigationAuth /> : <NavigationNonAuth />}</div>
@@ -11,21 +12,19 @@ const Navigation = ({ authUser }) => (
  
 const NavigationAuth = props => (
   <nav className = {classes.Navbar}>
-    <h2>Bugsmasher</h2>
-    <ul className = {classes.NavbarNav}>
-      <li>
-        <Link to={ROUTES.LANDING}>Landing</Link>
-      </li>
-      <li>
-        <Link to={ROUTES.HOME}>Home</Link>
-      </li>
-      <li>
-        <Link to={ROUTES.ACCOUNT}>Account</Link>
-      </li>
-      <li>
+    <img src = {logo}></img>
+    <div className = {classes.NavbarNav}>
+        <Link to={ROUTES.HOME}>
+          <i class="fas fa-house-user"></i>
+        </Link>
+
+        <Link to={ROUTES.ACCOUNT}>
+          <i class="fas fa-user-cog"></i>
+        </Link>
+
         <SignOutButton />
-      </li>
-    </ul>
+
+    </div>
   </nav>
 );
 

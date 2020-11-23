@@ -1,81 +1,148 @@
-import React, { Component, Suspense } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withFirebase } from '../../Firebase';
-import { Link } from 'react-router-dom'
 import { withRouter } from 'react-router';
 import classes from './Projects.module.css';
 import { isEmpty } from 'lodash';
-import Project from '../ProjectDisplay/index';
 
 import * as ROUTES from '../../constants/routes';
-
-const STARTER_STATE = {
-    name : '',
-    loading : true,
-    projectIDs : ['mve09jv09j34']
-}
 
 class AddProjectForm extends Component {
     constructor(props){
         super(props);
-        this.state = { ...STARTER_STATE}
-    }
-
-    randHex = len => {
-        var maxlen = 8,
-            min = Math.pow(16,Math.min(len,maxlen)-1),
-            max = Math.pow(16,Math.min(len,maxlen)) - 1,
-            n   = Math.floor( Math.random() * (max-min+1) ) + min,
-            r   = n.toString(16);
-        while ( r.length < len ) {
-           r = r + this.randHex( len - maxlen );
+        this.state = { 
+            name : '',
+            desc : '',
+            loading : true,
+            friends : [],
         }
-        return r;
-      };
+    }
 
     onSubmit = e => {
         e.preventDefault();
 
         const creatorUID = this.props.authUser.user.uid;
+
+        let users = [creatorUID];
+        this.state.friends.forEach(friend => {
+            if(friend.checked){
+                users.push(friend.uid);
+            }
+        })
         const projectData = {
             name : this.state.name,
             admins : [creatorUID],
-            users : [creatorUID],
+            users : users,
             bugs : [],
         }
 
         const projectID = this.state.name.toLowerCase().replace(/\s/g,'-') + '-' + Math.random().toString(36).substr(2, 9);
 
         this.props.firebase.project(projectID).set(projectData);
-        this.props.firebase.user(creatorUID).child('projects').push(projectID);
+        users.forEach(uid => {
+            this.props.firebase.user(uid).child('projects').push(projectID);
+        });
 
-        this.props.history.go(0);
+        this.props.history.push("/projects/" + projectID);
     }
 
     onChange = e => {
         this.setState({ [e.target.name] : e.target.value });
     }
 
+    loadFriendIDs = () => {
+        const uid = this.props.authUser.user.uid;
+        this.props.firebase.user(uid)
+                           .child("friends")
+                           .once("value")
+                           .then(snap => {
+                               const data = [...Object.values(snap.val())];
+                               this.loadFriendsToState(data);
+                           })
+    }
+
+    loadFriendsToState = friendIDs => {
+        friendIDs.forEach(friendID => {
+            this.props.firebase.user(friendID)
+                               .once("value")
+                               .then(snap => {
+                                   let friends = [...this.state.friends];
+                                   const data = {
+                                       ...snap.val(),
+                                       uid : friendID,
+                                       checked : false,
+                                   }
+                                   friends.push(data)
+                                   this.setState({friends : friends, loading : false});
+                               })
+        })
+    }
+
+    checkUser = uid => {
+        let friends = [...this.state.friends];
+        for(let i=0;i<friends.length;i++){
+            if(friends[i].uid === uid){
+                friends[i].checked = !friends[i].checked;
+                this.setState({friends:friends});
+                return;
+            }
+        }
+    }
+
+    componentDidMount() {
+        this.loadFriendIDs();
+    }
+
     render() {
    
         return (
-            <div>
-                <p>{this.props.authUser ? "Logged in" : "Not logged in ;("}</p>
-                <h1>New Project Form</h1>
-                <form onSubmit = {this.onSubmit}>
-                <input
-                    name = "name"
-                    value = {this.state.name}
-                    onChange = {this.onChange}
-                    type = "text"
-                    placeholder = "Project Name"
-                />
-                <button type="submit">Submit</button>
-                </form>
-                <hr/>
+            <div className={classes.Container}>
+                <div className={classes.AddProjectForm}>
+                    <h1>New Project</h1>
+                    <form onSubmit = {this.onSubmit}>
+                    <input
+                        name = "name"
+                        value = {this.state.name}
+                        onChange = {this.onChange}
+                        type = "text"
+                        placeholder = "Project Name"
+                    />
+                    <textarea
+                        name = "desc"
+                        value= {this.state.desc}
+                        onChange = {this.onChange}
+                        type = "text"
+                        placeholder = "Project description"
+                    />
+                    {!this.state.loading && this.state.friends.map(friend => (
+                        <User
+                            key = {friend.uid}
+                            check = {() => this.checkUser(friend.uid)}
+                            user={friend}
+                        />
+                    ))}
+                    <button type="submit">Submit</button>
+                    </form>
+                </div>
             </div>
         )
     }
+}
+
+const User = props => {
+    const { user } = props;
+    let userClass = classes.User;
+    if(user.checked){
+        userClass = [classes.User, classes.Checked].join(" ");
+    }
+    return (
+        <div 
+            onClick = {props.check}
+            className = {userClass}
+        >
+            {user.username}
+        </div>
+    )
 }
 
 const NewProjectPage = props => {

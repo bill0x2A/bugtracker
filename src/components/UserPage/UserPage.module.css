@@ -11,7 +11,7 @@
     margin: 10px 0;
     margin-bottom : 30px;
     padding-right: 60px;
-    background: var(--bg);
+    background: var(--bg-accent);
     border-radius: 5px;
     position: relative;
     left : 50px;
@@ -21,7 +21,7 @@
     height : 100px;
     width: 100px;
     border-radius: 50%;
-    border : 4px solid var(--bg);
+    border : 4px solid var(--bg-accent);
     position: absolute;
     left : -50px;
 }
@@ -41,11 +41,15 @@
     justify-content: space-between;
 }
 
+.ProjectsContainer {
+    color: var(--text-colour);
+}
+
 .InvitesContainer {
     height: 500px;
-    width : 300px;
+    width: 300px;
     border-radius: 5px;
-    background: var(--bg);
+    background: var(--bg-accent);
     padding-top: 15px;
     padding-left: 15px;
     color: var(--text-colour);
@@ -53,12 +57,13 @@
 
 .InvitesContainer h2 {
     margin-top: 0;
+    padding-right: 10px;
 }
 
 .FriendInvite {
     width: 100%;
     height: 50px;
-    background-color: var(--bg-accent);
+    background-color: var(--lighter);
     display: flex;
     font-size : 18px;
     margin-bottom: 10px;
@@ -71,7 +76,7 @@
     width: 285px;
     position: relative;
     height: 50px;
-    background-color: var(--bg-accent);
+    background-color: var(--lighter);
     display: flex;
     font-size : 18px;
     margin-bottom: 10px;
@@ -81,7 +86,7 @@
     transition: all 100ms;
 }
 .Friend:hover {
-    filter : contrast(110%);
+    filter : contrast(130%);
     transform: translateX(-3px);
     width: 288px;
 }
@@ -97,7 +102,7 @@
     height: 50px;
     width : 50px;
     border-radius: 50%;
-    border: 3px solid var(--bg-accent);
+    border: 3px solid var(--lighter);
 }
 
 .Accept {
@@ -130,4 +135,20 @@
     width : 50px;
     border-radius: 50%;
     border: 3px solid var(--bg-accent);
+}
+
+.AddProjectButton {
+    width: 100%;
+    height : 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-accent);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: filter 100ms;
+}
+
+.AddProjectButton:hover {
+    filter : contrast(110%);
 }

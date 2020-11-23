@@ -6,6 +6,7 @@ import { withFirebase } from '../../../Firebase/index';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Project from '../../ProjectDisplay/index';
+import * as ROUTES from '../../../constants/routes';
 
 class HomePage extends Component {
     constructor(){
@@ -148,6 +149,12 @@ class HomePage extends Component {
                         {this.state.loadingProjects ? <p>Loading...</p> : this.state.projects.map(project => (
                             <Project key={project.pid} project={project} />
                         ))}
+                            <Link to={ROUTES.NEWPROJECT}>
+                                <div
+                                    className={classes.AddProjectButton}>
+                                    ADD NEW PROJECT
+                                </div>
+                            </Link>
                         <div>
 
                         </div>

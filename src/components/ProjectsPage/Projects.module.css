@@ -1,0 +1,78 @@
+.Container {
+    width: 100%;
+    height: 100%;
+    min-height: calc(100vh - 300px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.AddProjectForm {
+    width : 700px;
+    min-height: 300px;
+    background: var(--bg-accent);
+
+    padding: 20px 40px;
+    padding-bottom : 45px;
+    color: var(--text-colour);
+    border-radius: 5px;
+    position: relative;
+}
+
+.AddProjectForm h1 {
+    margin-top : 0;
+}
+
+.AddProjectForm button {
+    background: none;
+    border-radius: 4px;
+    border: 3px solid white;
+    padding : 5px 15px;
+    transition: all 100ms;
+
+    position: absolute;
+    bottom : 10px;
+    right : 15px;
+}
+
+.AddProjectForm button:hover {
+    background-color: rgba(255,255,255,0.2);
+}
+
+.AddProjectForm input {
+    width : 250px;
+    font-family: 'Roboto', sans-serif;
+    height : 35px;
+    font-size : 16px;
+}
+
+
+.AddProjectForm textarea {
+    height: 120px;
+    font-family: 'Roboto', sans-serif;
+    font-size : 16px;
+}
+
+.User {
+    width : 200px;
+    float: left;
+    border-radius: 5px;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 15px;
+    margin: 10px 5px;
+    cursor: pointer;
+    transition: all 100ms;
+}
+
+.User:hover {
+    filter : contrast(110%);
+}
+
+
+.Checked {
+    background: green !important;
+}
+
+

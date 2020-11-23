@@ -159,7 +159,7 @@ class ProjectPage extends Component {
         this.setState({selectedBug:bug});
         const newPath = "/projects/" + this.props.pid + "/" + bug.id;
         this.props.history.push(newPath);
-        window.scrollTo({ top: 130, behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     render () {
@@ -198,11 +198,13 @@ class ProjectPage extends Component {
             loading ? (
                 <div>Loading content...</div>
             ) : (
-                <React.Fragment>
+                <div className={classes.Container}>
                     <div className={classes.Heading}>
-                        <h1>{project.name}</h1>
+                    <h1>{project.name}</h1>
+                        <div className={classes.HeadingCircle}></div>
+    
                     </div>
-                    <div className={classes.Container}>
+                    <div className={classes.BodyContainer}>
                         <div className = {classes.UserContainer}>
                             <h2>Users</h2>
                             {users.map(user => <User user={user} />)}
@@ -216,7 +218,7 @@ class ProjectPage extends Component {
                             {this.state.actions.map(action => <Notification firebase={this.props.firebase} action={action}/>)}
                         </div>
                     </div>
-                </React.Fragment>
+                </div>
             )
         )
     }

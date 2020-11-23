@@ -11,7 +11,7 @@ import LandingPage from './components/LandingPage/index';
 import SignUpPage from './components/SignUp/index';
 import SignInPage from './components/SignIn/index';
 import HomePage from './components/UserPage/Self/index';
-import ProjectsPage from './components/ProjectsPage/index';
+import NewProject from './components/ProjectsPage/index';
 import ProjectPage from './components/ProjectsPage/ProjectPage/index';
 import UserPage from './components/UserPage/Other/index';
 
@@ -50,6 +50,7 @@ class App extends Component {
             <Route path={ROUTES.HOME} component={HomePage} />
             <Route path={ROUTES.USER} component={UserPage} />
             <Route path={ROUTES.BUG} component={ProjectPage} />
+            <Route path={ROUTES.NEWPROJECT} component={NewProject} />
             <Route path={ROUTES.PROJECT} component={ProjectPage} />
             <Route render = {() => <h1>404, page not found</h1>} />
           </Switch>

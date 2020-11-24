@@ -14,6 +14,7 @@ import HomePage from './components/UserPage/Self/index';
 import NewProject from './components/ProjectsPage/index';
 import ProjectPage from './components/ProjectsPage/ProjectPage/index';
 import UserPage from './components/UserPage/Other/index';
+import AccountPage from './components/AccountPage/index';
 
 import * as ROUTES from './constants/routes';
 
@@ -47,6 +48,7 @@ class App extends Component {
             <Route exact path={ROUTES.LANDING} component={LandingPage} />
             <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
             <Route path={ROUTES.LOG_IN} component={SignInPage} />
+            <Route path={ROUTES.ACCOUNT} component={AccountPage}/>
             <Route path={ROUTES.HOME} component={HomePage} />
             <Route path={ROUTES.USER} component={UserPage} />
             <Route path={ROUTES.BUG} component={ProjectPage} />

@@ -4,6 +4,7 @@ import testpp from '../../../assets/default.png';
 import { withRouter } from 'react-router-dom';
 import { withFirebase } from '../../../Firebase/index';
 import { connect } from 'react-redux';
+import Loading from '../../Loading/index';
 import { Link } from 'react-router-dom';
 import Project from '../../ProjectDisplay/index';
 import * as ROUTES from '../../../constants/routes';
@@ -138,15 +139,15 @@ class HomePage extends Component {
         return (
             <div className ={classes.Container}>
                 <div className={classes.BasicInfoContainer}>
-                    {this.state.loadingUser ? <p>Loading...</p> : (<React.Fragment>
-                                                                     <img src ={testpp}/>
+                    {this.state.loadingUser ?  <Loading /> : (<React.Fragment>
+                                                                     <img src ={this.state.user.image}/>
                                                                      <h2>Welcome, {this.state.user.username}</h2>
                                                                    </React.Fragment>)}
                 </div>
                 <div className={classes.Main}>
                     <div className={classes.ProjectsContainer}>
-                        <h2>My Projects</h2>
-                        {this.state.loadingProjects ? <p>Loading...</p> : this.state.projects.map(project => (
+                    <h2>My Projects</h2>
+                        {this.state.loadingProjects ? <Loading /> : this.state.projects.map(project => (
                             <Project key={project.pid} project={project} />
                         ))}
                             <Link to={ROUTES.NEWPROJECT}>
@@ -159,41 +160,43 @@ class HomePage extends Component {
 
                         </div>
                     </div>
-                    <div className={classes.InvitesContainer}>
-                        <h2>Friends</h2>
-                        {this.state.loadingFriends ? <p>Loading...</p> : (
-                            <React.Fragment>
-                                {this.state.friends.map(friend => <Friend user={friend} />)}
-                            </React.Fragment>
-                        )}
-                    </div>
-                    <div className={classes.InvitesContainer}>
-                        <h2>Friend Requests</h2>
-                        {this.state.loadingFriendInvites ? <p>Loading...</p> : (
-                            <React.Fragment>
-                                {this.state.friendInvites.map(friendInvite => (
-                                    <Invite
-                                        friend
-                                        key={friendInvite.id}
-                                        data={friendInvite}
-                                        firebase={this.props.firebase}
-                                    />)
-                                )}
-                            </React.Fragment>
-                        )}
-                        <h2>Project Invites</h2>
-                        {this.state.loadingProjectInvites ? <p>Loading...</p> : (
-                            <React.Fragment>
-                                {this.state.projectInvites.map(projectInvite => (
-                                    <Invite
-                                        key={projectInvite.id}
-                                        data={projectInvite}
-                                        firebase={this.props.firebase}
-                                        project
-                                    />)
-                                )}
-                            </React.Fragment>
-                        )}
+                    <div className={classes.FriendsSection}>
+                        <div className={classes.InvitesContainer}>
+                            <h2>Friends</h2>
+                            {this.state.loadingFriends ? <Loading /> : (
+                                <React.Fragment>
+                                    {this.state.friends.map(friend => <Friend user={friend} />)}
+                                </React.Fragment>
+                            )}
+                        </div>
+                        <div className={classes.InvitesContainer}>
+                            <h2>Friend Requests</h2>
+                            {this.state.loadingFriendInvites ? <Loading /> : (
+                                <React.Fragment>
+                                    {this.state.friendInvites.map(friendInvite => (
+                                        <Invite
+                                            friend
+                                            key={friendInvite.id}
+                                            data={friendInvite}
+                                            firebase={this.props.firebase}
+                                        />)
+                                    )}
+                                </React.Fragment>
+                            )}
+                            <h2>Project Invites</h2>
+                            {this.state.loadingProjectInvites ? <Loading /> : (
+                                <React.Fragment>
+                                    {this.state.projectInvites.map(projectInvite => (
+                                        <Invite
+                                            key={projectInvite.id}
+                                            data={projectInvite}
+                                            firebase={this.props.firebase}
+                                            project
+                                        />)
+                                    )}
+                                </React.Fragment>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -208,7 +211,7 @@ const Friend = props => {
         <Link to={`/users/${user.id}`}>
         <div className = {classes.Friend}>
                     <div className={classes.FriendBody}>
-                    <img src={testpp}></img>
+                    <img src={user.image}></img>
                     <span>{user.username}</span>
                     <div>
                     </div>
@@ -254,7 +257,7 @@ class Invite extends Component {
             <div className={classes.FriendInvite}>
                 {this.state.loading ? <p>Loading...</p> : (
                     <div className={classes.InviteBody}>
-                    <img src={testpp}></img>
+                    <img src={this.state.image}></img>
                     <span>{this.state.username}</span>
                     <div>
                     <button onClick = {this.onAccept} className={classes.Accept}>Accept</button>

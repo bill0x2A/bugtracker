@@ -3,11 +3,11 @@ import { withFirebase } from '../../../Firebase';
 import { connect } from 'react-redux';
 import { withRouter, useParams, Link } from 'react-router-dom';
 import * as ROUTES from '../../../constants/routes';
-import defaultpp from '../../../assets/default.png';
 import classes from './ProjectPage.module.css';
 import { DisplayBug, SelectedBug } from '../ProjectPage/Bug/index';
 import User from './User/index';
 import BugAdder from './BugAdder/index';
+import Loading from '../../Loading/index';
 
 class ProjectPage extends Component {
 
@@ -276,8 +276,12 @@ class Notification extends Component {
         console.log(this.state);
         return(
         <div className={classes.Notification}>
-            <img src = {defaultpp} />
-            {(this.state.loadingUser || this.state.loadingBug) ? <p>Loading...</p> : <p>{this.state.user.username + this.state.text + this.state.bug.title}</p>}
+            {(this.state.loadingUser || this.state.loadingBug) ? <Loading /> : (
+                <React.Fragment>
+                    <img src = {this.state.user.image} />
+                    <p>{this.state.user.username + this.state.text + this.state.bug.title}</p>
+                </React.Fragment>
+            )}
         </div>)
     }
 }

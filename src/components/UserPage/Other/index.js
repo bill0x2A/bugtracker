@@ -26,7 +26,11 @@ class UserPage extends Component {
         this.props.firebase.user(uid)
                            .once("value")
                            .then(dataSnapshot => {
-                               this.setState({ user:dataSnapshot.val() , loadingUser : false });
+                               const user = {
+                                   ...dataSnapshot.val(),
+                                   uid : uid,
+                               }
+                               this.setState({ user:user , loadingUser : false });
                                this.loadProjectsToState();
                            })
     }
@@ -111,7 +115,7 @@ class UserPage extends Component {
             <div className ={classes.Container}>
                 <div className={classes.BasicInfoContainer}>
                     {this.state.loadingUser ? <p>Loading...</p> : (<React.Fragment>
-                                                                     <img src ={testpp}/>
+                                                                     <img src ={this.state.user.image}/>
                                                                      <h2>{this.state.user.username}</h2>
                                                                    </React.Fragment>)}
                 </div>

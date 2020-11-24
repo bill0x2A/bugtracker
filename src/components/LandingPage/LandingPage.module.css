@@ -1,0 +1,19 @@
+.Container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: calc(100vh - 200px);
+    color: var(--text-colour);
+    flex-direction: column;
+}
+
+.Container h1 {
+    font-size: 50px;
+}
+
+.Container img {
+    height: auto;
+    width: 300px;
+    border-radius: 8px;
+}

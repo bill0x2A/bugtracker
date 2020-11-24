@@ -30,7 +30,7 @@ const NavigationAuth = props => (
 
 const NavigationNonAuth = () => (
   <nav className = {classes.Navbar}>
-    <h2>App Name</h2>
+    <img src = {logo}></img>
     <ul className = {classes.NavbarNav}>
       <li>
         <Link to={ROUTES.LOG_IN}>Log In</Link>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import SignOutButton from '../SignOut/index';
+import SignOutButton from '../SignOut/SignOut';
  
 import * as ROUTES from '../../constants/routes';
 import classes from './Navigation.module.css';

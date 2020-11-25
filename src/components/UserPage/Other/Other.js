@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import classes from '../UserPage.module.css';
-import testpp from '../../../assets/default.png';
 import { withRouter } from 'react-router-dom';
 import { withFirebase } from '../../../Firebase/index';
 import { connect } from 'react-redux';
-import Project from '../../ProjectDisplay/index';
+import Project from '../../ProjectDisplay/ProjectDisplay';
 
 class UserPage extends Component {
     constructor(){

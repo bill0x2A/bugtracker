@@ -7,14 +7,14 @@ import { BrowserRouter as Router,
 import { withFirebase } from './Firebase/index';
 
 import Navigation from './components/Navigation/Navigation';
-import LandingPage from './components/LandingPage/index';
-import SignUpPage from './components/SignUp/index';
-import SignInPage from './components/SignIn/index';
-import HomePage from './components/UserPage/Self/index';
-import NewProject from './components/ProjectsPage/index';
-import ProjectPage from './components/ProjectsPage/ProjectPage/index';
-import UserPage from './components/UserPage/Other/index';
-import AccountPage from './components/AccountPage/index';
+import LandingPage from './components/LandingPage/LandingPage';
+import SignUpPage from './components/SignUp/SignUp';
+import SignInPage from './components/SignIn/SignIn';
+import HomePage from './components/UserPage/Self/Self';
+import NewProject from './components/ProjectsPage/NewProject/NewProject';
+import ProjectPage from './components/ProjectsPage/ProjectPage/ProjectPage';
+import UserPage from './components/UserPage/Other/Other';
+import AccountPage from './components/AccountPage/AccountPage';
 
 import * as ROUTES from './constants/routes';
 
@@ -45,7 +45,7 @@ class App extends Component {
           <Navigation authUser={this.state.authUser} />
           
           <Switch>
-            <Route exact path={ROUTES.LANDING} component={LandingPage} />
+            <Route exact path={ROUTES.LANDING} render={() => <LandingPage authUser={this.state.authUser}/>} />
             <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
             <Route path={ROUTES.LOG_IN} component={SignInPage} />
             <Route path={ROUTES.ACCOUNT} component={AccountPage}/>

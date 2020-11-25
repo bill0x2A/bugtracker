@@ -4,9 +4,9 @@ import testpp from '../../../assets/default.png';
 import { withRouter } from 'react-router-dom';
 import { withFirebase } from '../../../Firebase/index';
 import { connect } from 'react-redux';
-import Loading from '../../Loading/index';
+import Loading from '../../Loading/Loading';
 import { Link } from 'react-router-dom';
-import Project from '../../ProjectDisplay/index';
+import Project from '../../ProjectDisplay/ProjectDisplay';
 import * as ROUTES from '../../../constants/routes';
 
 class HomePage extends Component {
@@ -136,6 +136,9 @@ class HomePage extends Component {
     }
 
     render() {
+        const friendInvitesExist  = this.state.user.friendInvites.length  !== 0;
+        const projectInvitesExist = this.state.user.projectInvites.length !== 0;
+
         return (
             <div className ={classes.Container}>
                 <div className={classes.BasicInfoContainer}>

@@ -26,10 +26,43 @@
     left : -50px;
 }
 
+.Main {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .Main input {
     display: block;
 }
 
 .Main button {
+    margin-top : 15px;
+    border-radius: 4px;
     background: var(--bg);
+    transition: all 100ms;
+}
+
+.Main button:hover {
+    filter: contrast(90%);
+}
+
+.Main h3 {
+    margin-bottom: 5px;
+    color: var(--text-colour);
+}
+
+.Main textarea {
+    max-width: 600px;
+    display: block;
+}
+
+.Form {
+    background: var(--bg-accent);
+    padding : 20px 40px;
+    border-radius: 5px;
+    width: 60%;
+    min-width: 600px;
 }

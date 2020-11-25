@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import { withRouter, useParams, Link } from 'react-router-dom';
 import * as ROUTES from '../../../constants/routes';
 import classes from './ProjectPage.module.css';
-import { DisplayBug, SelectedBug } from '../ProjectPage/Bug/index';
-import User from './User/index';
-import BugAdder from './BugAdder/index';
-import Loading from '../../Loading/index';
+import { DisplayBug, SelectedBug } from './Bug/index';
+import User from './User/User';
+import BugAdder from './BugAdder/BugAdder';
+import Loading from '../../Loading/Loading';
 
 class ProjectPage extends Component {
 

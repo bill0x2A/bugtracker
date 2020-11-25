@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withFirebase } from '../../Firebase';
+import { withFirebase } from '../../../Firebase';
 import { withRouter } from 'react-router';
-import classes from './Projects.module.css';
+import classes from './NewProject.module.css';
 import { isEmpty } from 'lodash';
 
-import * as ROUTES from '../../constants/routes';
+import * as ROUTES from '../../../constants/routes';
 
 class AddProjectForm extends Component {
     constructor(props){

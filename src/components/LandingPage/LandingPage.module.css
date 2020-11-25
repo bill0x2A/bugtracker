@@ -4,7 +4,7 @@
     justify-content: center;
     width: 100%;
     height: calc(100vh - 200px);
-    color: var(--text-colour);
+    color: white;
     flex-direction: column;
 }
 

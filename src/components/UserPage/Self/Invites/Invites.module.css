@@ -1,4 +1,4 @@
-.Friends {
+.InvitesContainer {
     height: 500px;
     width: 300px;
     border-radius: 5px;
@@ -9,6 +9,7 @@
     margin-left : 20px;
 }
 
-.Friends h2 {
+.InvitesContainer h2 {
     margin-top: 0;
+    padding-right: 10px;
 }

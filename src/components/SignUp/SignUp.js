@@ -41,8 +41,9 @@ class SignUpFormBase extends Component {
                                                              email,
                                                              projects : [],
                                                              friends : [],
-                                                             groups : []
-                                                         }) 
+                                                             groups : [],
+                                                             image : "https://i.imgur.com/99YSV5t.png",
+                                                         })
 
                            }).catch(error => {
                                this.setState({error : error});

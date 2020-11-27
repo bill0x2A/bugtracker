@@ -15,11 +15,11 @@ const NavigationAuth = props => (
     <img src = {logo}></img>
     <div className = {classes.NavbarNav}>
         <Link to={ROUTES.HOME}>
-          <i class="fas fa-house-user"></i>
+          <i className="fas fa-house-user"></i>
         </Link>
 
         <Link to={ROUTES.ACCOUNT}>
-          <i class="fas fa-user-cog"></i>
+          <i className="fas fa-user-cog"></i>
         </Link>
 
         <SignOutButton />

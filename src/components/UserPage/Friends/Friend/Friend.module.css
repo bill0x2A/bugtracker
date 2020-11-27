@@ -1,0 +1,32 @@
+.Friend {
+    width: 285px;
+    position: relative;
+    height: 50px;
+    background-color: var(--lighter);
+    display: flex;
+    font-size : 18px;
+    margin-bottom: 10px;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+    color: var(--text-colour);
+    transition: all 100ms;
+}
+.Friend:hover {
+    filter : contrast(130%);
+    transform: translateX(-3px);
+    width: 288px;
+}
+
+.FriendBody {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.FriendBody img {
+    height: 50px;
+    width : 50px;
+    border-radius: 50%;
+    border: 3px solid var(--lighter);
+}

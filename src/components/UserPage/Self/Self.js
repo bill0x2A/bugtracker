@@ -6,24 +6,28 @@ import { withFirebase } from '../../../Firebase/index';
 import { connect } from 'react-redux';
 import Loading from '../../Loading/Loading';
 import { Link } from 'react-router-dom';
-import Project from '../../ProjectDisplay/ProjectDisplay';
+import Projects from '../../ProjectDisplay/ProjectDisplay';
 import * as ROUTES from '../../../constants/routes';
+import Friends from '../Friends/Friends';
+import Invites from './Invites/Invites';
+
+const STARTER_STATE = {
+    userIsFriend : false,
+    loadingUser : true,
+    loadingProjects : true,
+    loadingFriends  : true,
+    loadingFriendInvites : true,
+    loadingProjectInvites : true,
+    projects : [],
+    friends : [],
+    friendInvites : [],
+    projectInvites : [],
+}
 
 class HomePage extends Component {
     constructor(){
         super();
-        this.state = {
-            userIsFriend : false,
-            loadingUser : true,
-            loadingProjects : true,
-            loadingFriends  : true,
-            loadingFriendInvites : true,
-            loadingProjectInvites : true,
-            projects : [],
-            friends : [],
-            friendInvites : [],
-            projectInvites : [],
-        }
+        this.state = STARTER_STATE;
     }
 
     componentDidMount(){
@@ -34,96 +38,9 @@ class HomePage extends Component {
         const uid = this.props.authUser.user.uid;
 
         this.props.firebase.user(uid)
-                           .once("value")
-                           .then(dataSnapshot => {
-                               this.setState({ user:dataSnapshot.val() , loadingUser : false });
-                               this.loadProjectsToState();
-                               this.loadFriendsToState();
-                               this.loadInvitationsToState();
-                           })
-    }
-
-    loadProjectsToState = () => {
-        let projectIDs = null;
-        try {
-            projectIDs = [...Object.values(this.state.user.projects)];
-            projectIDs.forEach(pid => {
-                this.props.firebase.project(pid)
-                                   .once("value")
-                                   .then(dataSnapshot => {
-                                       let projects = [...this.state.projects];
-                                       const newProject = {
-                                           ...dataSnapshot.val(),
-                                           pid : pid,
-                                       }
-                                       projects.push(newProject);
-                                       this.setState({ projects:projects, loadingProjects:false });
-                                   })
-            })            
-        } catch(e) {
-            this.setState({projects : [], loadingProjects : false});
-        }
-    }
-
-    loadFriendsToState = () => {
-        try {
-            const friendUIDs = [...Object.values(this.state.user.friends)];
-            friendUIDs.forEach(uid => {
-                this.props.firebase.user(uid)
-                                   .once("value")
-                                   .then(dataSnapshot => {
-                                       let friends = [...this.state.friends];
-                                       const newFriend = {
-                                           ...dataSnapshot.val(),
-                                           id : uid,
-                                       }
-                                       friends.push(newFriend);
-                                       this.setState({ friends:friends, loadingFriends:false });
-                                   })
-                                }
-                            );
-                // Check if the user is a friend of the logged in user, save result to state
-                const thisUserUID = this.props.authUser.user.uid;
-                if(friendUIDs.includes(thisUserUID)){
-                    this.setState({ userIsFriend:true })
-                }                              
-            } catch(e) {
-                this.setState({friends : [], loadingFriends : false});
-        }
-    }
-
-    loadInvitationsToState = () => {
-        try {
-            const invitationIDs = [...Object.values(this.state.user.invitations)];
-            invitationIDs.forEach(iid => {
-                this.props.firebase.invite(iid).once("value").then(snap => {
-                    let data = {
-                        ...snap.val(),
-                        id : iid,
-                    };
-                    let friendInvites = [...this.state.friendInvites];
-                    let projectInvites = [...this.state.projectInvites];
-
-                    if(data.to === this.props.authUser.user.uid) {
-                        switch(data.type){
-                            case "friend":
-                                friendInvites.push(data);
-                                this.setState({friendInvites : friendInvites, loadingFriendInvites : false});
-                                break;
-                            case "project":
-                                projectInvites.push(data);
-                                this.setState({projectInvites:projectInvites, loadingProjectInvites : false});
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                })
-            })
-        }
-        catch(e) {
-            this.setState({friendInvites : [], projectInvites : [], loadingProjectInvites : false, loadingFriendInvites : false});
-        }
+                           .on("value", dataSnapshot => {
+                            this.setState({ user:dataSnapshot.val() , loadingUser : false });
+                        });
     }
 
     removeFriend = () => {
@@ -136,9 +53,7 @@ class HomePage extends Component {
     }
 
     render() {
-        const friendInvitesExist  = this.state.user.friendInvites.length  !== 0;
-        const projectInvitesExist = this.state.user.projectInvites.length !== 0;
-
+        
         return (
             <div className ={classes.Container}>
                 <div className={classes.BasicInfoContainer}>
@@ -150,9 +65,7 @@ class HomePage extends Component {
                 <div className={classes.Main}>
                     <div className={classes.ProjectsContainer}>
                     <h2>My Projects</h2>
-                        {this.state.loadingProjects ? <Loading /> : this.state.projects.map(project => (
-                            <Project key={project.pid} project={project} />
-                        ))}
+                    {this.state.loadingUser ? <Loading /> : <Projects projectIDs={this.state.user.projects} />}
                             <Link to={ROUTES.NEWPROJECT}>
                                 <div
                                     className={classes.AddProjectButton}>
@@ -164,110 +77,10 @@ class HomePage extends Component {
                         </div>
                     </div>
                     <div className={classes.FriendsSection}>
-                        <div className={classes.InvitesContainer}>
-                            <h2>Friends</h2>
-                            {this.state.loadingFriends ? <Loading /> : (
-                                <React.Fragment>
-                                    {this.state.friends.map(friend => <Friend user={friend} />)}
-                                </React.Fragment>
-                            )}
-                        </div>
-                        <div className={classes.InvitesContainer}>
-                            <h2>Friend Requests</h2>
-                            {this.state.loadingFriendInvites ? <Loading /> : (
-                                <React.Fragment>
-                                    {this.state.friendInvites.map(friendInvite => (
-                                        <Invite
-                                            friend
-                                            key={friendInvite.id}
-                                            data={friendInvite}
-                                            firebase={this.props.firebase}
-                                        />)
-                                    )}
-                                </React.Fragment>
-                            )}
-                            <h2>Project Invites</h2>
-                            {this.state.loadingProjectInvites ? <Loading /> : (
-                                <React.Fragment>
-                                    {this.state.projectInvites.map(projectInvite => (
-                                        <Invite
-                                            key={projectInvite.id}
-                                            data={projectInvite}
-                                            firebase={this.props.firebase}
-                                            project
-                                        />)
-                                    )}
-                                </React.Fragment>
-                            )}
-                        </div>
+                        {this.state.loadingUser ? <Loading /> : <Friends friends={this.state.user.friends} />}
+                        {this.state.loadingUser ? <Loading /> : <Invites invites={this.state.user.invitations}/> }
                     </div>
                 </div>
-            </div>
-        )
-    }
-}
-
-const Friend = props => {
-    const { user } = props;
-
-    return (
-        <Link to={`/users/${user.id}`}>
-        <div className = {classes.Friend}>
-                    <div className={classes.FriendBody}>
-                    <img src={user.image}></img>
-                    <span>{user.username}</span>
-                    <div>
-                    </div>
-                </div>
-        </div>
-        </Link>
-    )
-}
-
-class Invite extends Component {
-    constructor(){
-        super();
-        this.state = {
-            loading : true,
-        }
-    }
-
-    componentDidMount(){
-        this.loadUserToState();
-    }
-
-    onAccept = () => {
-        const { id, to, from } = this.props.data;
-        this.props.firebase.invite(id).remove();
-        this.props.firebase.user(to).child(`friends/${from}`).set(from);
-        this.props.firebase.user(from).child(`friends/${to}`).set(to);
-    }
-
-    onReject = () => {
-        const { id } = this.props.data;
-        this.props.firebase.invite(id).remove();
-    }
-
-    loadUserToState = () => {
-        const uid = this.props.data.from;
-        this.props.firebase.user(uid).once("value").then(snap => {
-            const user = snap.val();
-            this.setState({ ...user , loading : false});
-        })
-    }
-    render(){
-        return (
-            <div className={classes.FriendInvite}>
-                {this.state.loading ? <p>Loading...</p> : (
-                    <div className={classes.InviteBody}>
-                    <img src={this.state.image}></img>
-                    <span>{this.state.username}</span>
-                    <div>
-                    <button onClick = {this.onAccept} className={classes.Accept}>Accept</button>
-                    <button onClick = {this.onReject} className={classes.Ignore}>Ignore</button>
-                    </div>
-                </div>
-                )}
             </div>
         )
     }

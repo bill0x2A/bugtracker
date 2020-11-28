@@ -3,10 +3,14 @@ import classes from './Friends.module.css';
 import Loading from '../../Loading/Loading';
 import Friend from './Friend/Friend';
 import { withFirebase } from '../../../Firebase/index';
+import AddButton from './AddButton/AddButton';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 const STARTER_STATE = {
     friends : [],
     loadingFriends : true,
+    userIsFriend : false,
 };
 
 class Friends extends Component  {
@@ -25,6 +29,32 @@ class Friends extends Component  {
         }
     }
 
+    inviteFriend = () => {
+        const thisUserUID = this.props.authUser.user.uid;
+        const uid = this.props.match.params.uid;
+
+        const newInvite = {
+            from : thisUserUID,
+            to   : uid,
+            data : null,
+        }
+
+        const newKey = this.props.firebase.invites()
+                                          .push(newInvite)
+                                          .getKey();
+
+        this.props.firebase.user(uid).child(`/invitations/${newKey}`).set(newKey);
+    }
+
+    removeFriend = () => {
+        this.props.firebase.user(this.props.authUser.user.uid)
+                           .child(`friends/${this.props.match.params.uid}`)
+                           .remove();
+        this.props.firebase.user(this.props.match.params.uid)
+                           .child(`friends/${this.props.authUser.user.uid}`)
+                           .remove();
+    }
+
     loadFriendsToState = () => {
         try {
             const friendUIDs = [...Object.values(this.props.friends)];
@@ -40,7 +70,7 @@ class Friends extends Component  {
                                        // Check included to prevent double adding, which occaisionally happens.
                                        if(!friends.includes(newFriend)){
                                             friends.push(newFriend);
-                                            this.setState({ friends:friends, loadingFriends:false }, console.log(this.state.friends));
+                                            this.setState({ friends:friends, loadingFriends:false });
                                         }
                                    })
                                 }
@@ -64,18 +94,18 @@ class Friends extends Component  {
                     {this.state.friends.map(friend => <Friend key = {friend.id} user={friend} />)}
                 </React.Fragment>
             )}
-            {this.state.userIsFriend ? (
-                    <button
-                        className={classes.Button}
-                        onClick = {this.removeFriend}
-                    >Remove friend</button>
-                ) : ( <button
-                        className={classes.Button}
-                        onClick = {this.inviteFriend}
-                        >Add friend</button>
-                )}
+            {(!this.props.loading && this.props.match.path !== "/home") &&
+                <AddButton 
+                    userIsFriend = {this.state.userIsFriend}
+                    remove = {this.removeFriend}
+                    invite = {this.inviteFriend}
+                />}
         </div>
     )}
 }
 
-export default withFirebase(Friends)
+const mapStateToProps = state => ({
+    authUser : state.authUser,
+})
+
+export default connect(mapStateToProps)(withRouter(withFirebase(Friends)));

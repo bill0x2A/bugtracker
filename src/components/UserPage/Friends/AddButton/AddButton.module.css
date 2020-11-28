@@ -1,0 +1,9 @@
+.Button {
+    background: var(--bg);
+    border-radius: 4px;
+    transition: filter 100ms;
+}
+
+.Button:hover {
+    filter: contrast(80%)
+}

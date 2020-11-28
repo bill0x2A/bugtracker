@@ -72,3 +72,19 @@
 .FriendsSection {
     display: flex;
 }
+
+.BioContainer {
+    background: var(--bg-accent);
+    color : white;
+    padding : 20px 20px;
+    min-width: 300px;
+    height: max-content;
+    border-radius: 5px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.BioContainer h2 {
+    margin-top : 0;
+}

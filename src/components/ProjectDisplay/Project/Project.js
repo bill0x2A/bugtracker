@@ -1,6 +1,7 @@
 import React from 'react';
 import classes from './Project.module.css';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 const Project = props => {
 
@@ -19,4 +20,8 @@ const Project = props => {
     )
 }
 
-export default Project;
+const mapStateToProps = state => ({
+    authUser : state.authUser,
+})
+
+export default connect(mapStateToProps)(Project);

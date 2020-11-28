@@ -81,44 +81,26 @@ class UserPage extends Component {
   
     }
 
-    inviteFriend = () => {
-        const thisUserUID = this.props.authUser.user.uid;
-        const uid = this.props.match.params.uid;
-
-        const newInvite = {
-            from : thisUserUID,
-            to   : uid,
-            data : null,
-        }
-
-        const newKey = this.props.firebase.invites()
-                                          .push(newInvite)
-                                          .getKey();
-
-        this.props.firebase.user(uid).child(`/invitations/${newKey}`).set(newKey);
-    }
-
-    removeFriend = () => {
-        this.props.firebase.user(this.props.authUser.user.uid)
-                           .child(`friends/${this.props.match.params.uid}`)
-                           .remove();
-        this.props.firebase.user(this.props.match.params.uid)
-                           .child(`friends/${this.props.authUser.user.uid}`)
-                           .remove();
-    }
-
     render() {
+        const { user, loadingUser } = this.state;
         return (
             <div className ={classes.Container}>
                 <div className={classes.BasicInfoContainer}>
-                    {this.state.loadingUser ? <p>Loading...</p> : (<React.Fragment>
-                                                                     <img src ={this.state.user.image}/>
-                                                                     <h2>{this.state.user.username}</h2>
+                    {loadingUser ? <Loading /> : (<React.Fragment>
+                                                                     <img src ={user.image}/>
+                                                                     <h2>{user.username}</h2>
                                                                    </React.Fragment>)}
                 </div>
                 <div className={classes.Main}>
-                    {this.state.loadingUser ? <Loading /> : <Projects projectIDs={this.state.user.projects} />}
-                    {this.state.loadingUser ? <Loading /> : <Friends friends={this.state.user.friends} />}
+                    <div className={classes.ProjectsContainer}>
+                        <h2>User Projects</h2>
+                        {loadingUser ? <Loading /> : <Projects projectIDs={user.projects} />}
+                    </div>
+                    <div className = {classes.BioContainer}>
+                        <h2>Bio</h2>
+                        {loadingUser ? <Loading /> : <p>{user.bio}</p>}
+                    </div>
+                    {loadingUser ? <Loading /> : <Friends friends={user.friends} />}
                 </div>
             </div>
         )

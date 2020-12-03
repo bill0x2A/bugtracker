@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
+import classes from './SignIn.module.css';
 
 import * as ROUTES from '../../constants/routes';
 import * as actionTypes from '../../store/actionTypes';
@@ -13,18 +14,8 @@ const STARTER_STATE = {
     error : null
 }
 
-const SignIn = () => {
-    
-    return (
-    <div>
-        <h1>Sign In</h1>
-        <SignInForm />
-    </div>
-    )
-};
 
-
-class SignInFormBase extends Component {
+class SignInForm extends Component {
 
     constructor(props){
         super(props);
@@ -54,24 +45,27 @@ class SignInFormBase extends Component {
     render () {
         const isInvalid = this.state.password === '' || this.state.email === '';
         return (
-            <form onSubmit = {this.onSubmit}>
-                <input
-                    name = "email"
-                    value = {this.state.email}
-                    onChange = {this.onChange}
-                    type = "text"
-                    placeholder = "email"
-                />
-                <input
-                    name = "password"
-                    value = {this.state.password}
-                    onChange = {this.onChange}
-                    type = "password"
-                    placeholder = "password"
-                />
-                <button disabled = {isInvalid} type = "submit">Sign In</button>
-                {this.state.error && <p>{this.state.error.message}</p>}
-            </form>
+            <div className = {classes.Container}>
+                <form onSubmit = {this.onSubmit}>
+                <h2>Sign In</h2>
+                    <input
+                        name = "email"
+                        value = {this.state.email}
+                        onChange = {this.onChange}
+                        type = "text"
+                        placeholder = "email"
+                    />
+                    <input
+                        name = "password"
+                        value = {this.state.password}
+                        onChange = {this.onChange}
+                        type = "password"
+                        placeholder = "password"
+                    />
+                    <button disabled = {isInvalid} type = "submit">Sign In</button>
+                    {this.state.error && <p>{this.state.error.message}</p>}
+                </form>
+            </div>
         )
     }
 }
@@ -82,6 +76,4 @@ const mapDispatchToProps = dispatch => (
     }
 )
 
-const SignInForm = connect(null, mapDispatchToProps)(withRouter(withFirebase(SignInFormBase)));
-
-export default SignIn;
+export default connect(null, mapDispatchToProps)(withRouter(withFirebase(SignInForm)));

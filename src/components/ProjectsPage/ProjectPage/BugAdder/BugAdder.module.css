@@ -2,7 +2,7 @@
     display: block;
 }
 
-textarea {
+.BugAddForm textarea {
     width: 100%;
     background-color: lightgray;
     resize: vertical;
@@ -16,11 +16,11 @@ textarea {
     box-shadow: none;
 }
 
-textarea:active{
+.BugAddForm textarea:active{
     border: none;
 }
 
-input[type=text] {
+.BugAddForm input[type=text] {
     margin-bottom: 5px;
     padding: 5px 10px;
     max-width: 50%;
@@ -86,7 +86,7 @@ input[type='radio']:checked:after {
     border: 2px solid black;
 }
 
-Button {
+.Button {
     border: none;
     color: white;
     padding: 6px 17px;

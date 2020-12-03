@@ -1,0 +1,54 @@
+.Container {
+    min-height: calc(100vh - 300    px);
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Container form {
+    position: relative;
+    width: 300px;
+    align-items: center;
+    justify-content: space-around;
+    background-color: var(--bg-accent);
+    padding: 30px 50px;
+    padding-bottom : 50px;
+    min-width: 400px;
+    border-radius: 5px;
+}
+
+.Container input {
+    margin-bottom: 5px;
+    padding: 5px 10px;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    background-color: lightgray;
+    overflow: auto;
+    outline: none;
+    box-shadow: none;
+    display: block;
+}
+
+.Container h2 {
+    color: white;
+    margin-top: 0px;
+}
+
+.Container button {
+    background-color: var(--bg);
+    color: white;
+    position: absolute;
+    bottom : 10px;
+    right : 10px;
+    align-self: flex-end;
+    border: 2px solid white;
+    padding : 5px 15px;
+    cursor: pointer;
+}
+
+.Container button:disabled {
+    background-color: darkgray;
+    cursor: not-allowed;
+}

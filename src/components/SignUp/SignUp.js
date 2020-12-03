@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
-
-import * as ROUTES from '../../constants/routes';
 import { withFirebase } from '../../Firebase/index';
+
+import classes from './SignUp.module.css';
+import * as ROUTES from '../../constants/routes';
 
 const STARTER_STATE = {
     username : '',
@@ -12,14 +13,8 @@ const STARTER_STATE = {
     error : null
 }
 
-const SignUp = () => (
-    <div>
-        <h1>Sign Up Form</h1>
-        <SignUpForm />
-    </div>
-)
 
-class SignUpFormBase extends Component {
+class SignUpForm extends Component {
 
     constructor(props){
         super(props);
@@ -63,44 +58,44 @@ class SignUpFormBase extends Component {
             this.state.email === '';
 
         return (
-            <form onSubmit = {this.onSubmit}>
-                <input
-                    name="username"
-                    value={this.state.username}
-                    onChange={this.onChange}
-                    type="text"
-                    placeholder="Username"
-                />
-                <input
-                    name="email"
-                    value={this.state.email}
-                    onChange={this.onChange}
-                    type="text"
-                    placeholder="Email Address"
-                />
-                <input
-                    name="passwordOne"
-                    value={this.state.passwordOne}
-                    onChange={this.onChange}
-                    type="password"
-                    placeholder="Password"
-                />
-                <input
-                    name="passwordTwo"
-                    value={this.state.passwordTwo}
-                    onChange={this.onChange}
-                    type="password"
-                    placeholder="Confirm Password"
-                />
-                <button disabled = {isInvalid} type="submit">Sign Up</button>
-        
-                {this.state.error && <p>{this.state.error.message}</p>}
-            </form>
+            <div className = {classes.Container}>
+                <form onSubmit = {this.onSubmit}>
+                    <h2>Sign Up</h2>
+                    <input
+                        name="username"
+                        value={this.state.username}
+                        onChange={this.onChange}
+                        type="text"
+                        placeholder="Username"
+                    />
+                    <input
+                        name="email"
+                        value={this.state.email}
+                        onChange={this.onChange}
+                        type="text"
+                        placeholder="Email Address"
+                    />
+                    <input
+                        name="passwordOne"
+                        value={this.state.passwordOne}
+                        onChange={this.onChange}
+                        type="password"
+                        placeholder="Password"
+                    />
+                    <input
+                        name="passwordTwo"
+                        value={this.state.passwordTwo}
+                        onChange={this.onChange}
+                        type="password"
+                        placeholder="Confirm Password"
+                    />
+                    <button disabled = {isInvalid} type="submit">Sign Up</button>
+            
+                    {this.state.error && <p>{this.state.error.message}</p>}
+                </form>
+            </div>
         )
     }
 }
 
-const SignUpForm = withRouter(withFirebase(SignUpFormBase));
-
-
-export default SignUp;
+export default withRouter(withFirebase(SignUpForm));

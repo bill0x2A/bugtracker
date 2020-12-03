@@ -1,9 +1,13 @@
-.Button {
+.AddButton {
     background: var(--bg);
     border-radius: 4px;
-    transition: filter 100ms;
+    transition: all 100ms;
+
+    position: absolute;
+    bottom : 10px;
+    right : 10px;
 }
 
-.Button:hover {
+.AddButton:hover {
     filter: contrast(80%)
 }

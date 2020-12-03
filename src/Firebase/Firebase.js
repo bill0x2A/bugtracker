@@ -1,6 +1,7 @@
 import app from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
+import 'firebase/storage';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -19,6 +20,7 @@ class Firebase {
 
     this.auth = app.auth();
     this.db = app.database();
+    this.storage = app.storage();
 
   }
 
@@ -31,6 +33,8 @@ class Firebase {
   doSignInWithEmailAndPassword = (email, password) => {
     return this.auth.signInWithEmailAndPassword(email, password);
   }
+
+  doDeleteAccount = () => this.auth.currentUser.delete();
 
   doSignInAnonymously = () => this.auth.signInAnonymously();
 
@@ -61,6 +65,11 @@ class Firebase {
 
  invite = inviteID => this.db.ref(`invites/${inviteID}`);
  invites = () => this.db.ref('invites');
+
+ // ### STORAGE API ###
+
+ images = () => this.storage.ref('profiles');
+ image = uid => this.storage.ref(`profiles/${uid}`);
 }
 
 export default Firebase;

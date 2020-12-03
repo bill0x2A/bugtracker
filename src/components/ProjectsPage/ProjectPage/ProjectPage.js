@@ -99,12 +99,14 @@ class ProjectPage extends Component {
                                .once("value")
                                .then(dataSnapshot => {
                                    let users = [...this.state.users];
+                                   const data = dataSnapshot.val();
                                    const newUser = {
-                                       ...dataSnapshot.val(),
+                                       ...data,
                                        uid : uid,
                                    }
+                                   if(data){
                                    users.push(newUser);
-                                   this.setState({users:users});
+                                   this.setState({users:users});}
                                });
         })
     }
@@ -117,12 +119,15 @@ class ProjectPage extends Component {
                                .once("value")
                                .then(dataSnapshot => {
                                    let admins = [...this.state.users];
+                                   const data = dataSnapshot.val();
                                    const newAdmin = {
-                                       ...dataSnapshot.val(),
+                                       ...data,
                                        uid : uid,
                                    }
-                                   admins.push(newAdmin);
-                                   this.setState({admins:admins});
+                                   if(data && !admins.includes(newAdmin)){
+                                        admins.push(newAdmin);
+                                        this.setState({admins:admins});
+                                    }
                                });
         })
     }

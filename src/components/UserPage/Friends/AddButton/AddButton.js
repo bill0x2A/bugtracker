@@ -6,11 +6,11 @@ const AddButton = props => {
     return (
         props.userIsFriend ? (
             <button
-                className={classes.Button}
+                className={classes.AddButton}
                 onClick = {props.remove}
             >Remove friend</button>
         ) : ( <button
-                className={classes.Button}
+                className={classes.AddButton}
                 onClick = {props.invite}
                 >Add friend</button>
         )

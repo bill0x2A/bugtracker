@@ -114,7 +114,9 @@ class AddProjectForm extends Component {
                         type = "text"
                         placeholder = "Project description"
                     />
-                    {!this.state.loading && this.state.friends.map(friend => (
+                    {!this.state.loading &&
+                      this.state.friends.filter(friend => friend.username)
+                                        .map(friend => (
                         <User
                             key = {friend.uid}
                             check = {() => this.checkUser(friend.uid)}
@@ -135,6 +137,7 @@ const User = props => {
     if(user.checked){
         userClass = [classes.User, classes.Checked].join(" ");
     }
+    console.log(user)
     return (
         <div 
             onClick = {props.check}

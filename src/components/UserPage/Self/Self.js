@@ -18,6 +18,7 @@ const STARTER_STATE = {
     loadingFriends  : true,
     loadingFriendInvites : true,
     loadingProjectInvites : true,
+    loadingPP : true,
     projects : [],
     friends : [],
     friendInvites : [],
@@ -43,6 +44,8 @@ class HomePage extends Component {
                         });
     }
 
+    loadPictureToState = () => {}
+
     removeFriend = () => {
         this.props.firebase.user(this.props.authUser.user.uid)
                            .child(`friends/${this.props.match.params.uid}`)
@@ -66,15 +69,11 @@ class HomePage extends Component {
                     <div className={classes.ProjectsContainer}>
                     <h2>My Projects</h2>
                     {this.state.loadingUser ? <Loading /> : <Projects projectIDs={this.state.user.projects} />}
-                            <Link to={ROUTES.NEWPROJECT}>
-                                <div
-                                    className={classes.AddProjectButton}>
-                                    ADD NEW PROJECT
-                                </div>
-                            </Link>
-                        <div>
-
-                        </div>
+                        <Link to={ROUTES.NEWPROJECT}>
+                            <div className={classes.AddProjectButton}>
+                                ADD NEW PROJECT
+                            </div>
+                         </Link>
                     </div>
                     <div className={classes.FriendsSection}>
                         {this.state.loadingUser ? <Loading /> : <Friends friends={this.state.user.friends} />}

@@ -63,12 +63,13 @@ class Friends extends Component  {
                                    .once("value")
                                    .then(dataSnapshot => {
                                        let friends = [...this.state.friends];
+                                       const friendData = dataSnapshot.val();
                                        const newFriend = {
                                            ...dataSnapshot.val(),
                                            id : uid,
                                        }
                                        // Check included to prevent double adding, which occaisionally happens.
-                                       if(!friends.includes(newFriend)){
+                                       if(!friends.includes(newFriend) && friendData){
                                             friends.push(newFriend);
                                             this.setState({ friends:friends, loadingFriends:false });
                                         }

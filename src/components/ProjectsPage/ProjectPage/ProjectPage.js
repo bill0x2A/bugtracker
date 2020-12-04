@@ -8,30 +8,38 @@ import { DisplayBug, SelectedBug } from './Bug/index';
 import User from './User/User';
 import BugAdder from './BugAdder/BugAdder';
 import Loading from '../../Loading/Loading';
+import defaultpp from '../../../assets/2.png'
+
+const STARTER_STATE = {
+    loading : true,
+    bugs : [],
+    users : [],
+    admins : [],
+    actions : [],
+}   
+
 
 class ProjectPage extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            loading : true,
-            bugs : [],
-            users : [],
-            admins : [],
-            actions : [],
-            selectedBug : this.props.match.bid,
+            ...STARTER_STATE,
+            selectedBug : this.props.match.bid
         }
     }
 
     componentDidMount() {
-        this.getProjectData();
+        this.loadProjectToState();
     }
 
     userIsMember = () => {
-        const { project } = this.state;
-        const uid = this.props.authUser.uid;
+        const { users } = this.state.project;
+        const uid = this.props.authUser.user.uid;
 
-        if(project.users.includes(uid)){
+        const usersArray = [...Object.values(users)];
+
+        if(usersArray.includes(uid)){
             return true;
         } else {
             return false;
@@ -49,50 +57,53 @@ class ProjectPage extends Component {
         }
     }
 
-    getProjectData = () => {
+    loadProjectToState = () => {
         this.props.firebase.project(this.props.pid)
-                           .once("value")
-                           .then( dataSnapshot => {
-                               const project = dataSnapshot.val();
-
-                               this.setState({loading:false, project : project})
-
-                               this.loadBugsToState(project);
-                               this.loadUsersToState(project);
-                               this.loadAdminsToState(project);
-                               this.loadActionsToState(project);
-                           })
+                           .on("value", dataSnapshot => {
+                            const project = dataSnapshot.val();
+                            let RESET_STATE = {...STARTER_STATE};
+                            RESET_STATE.loading = false;
+                            RESET_STATE.project = project;
+                            
+                            this.setState(RESET_STATE, () => {
+                                this.loadBugsToState();
+                                this.loadUsersToState();
+                                this.loadAdminsToState();
+                                this.loadActionsToState();
+                                if(!this.userIsMember()){
+                                    this.props.history.push('/');
+                                }
+                            })
+                           });
     }
 
-    loadBugsToState = project => {
-        let bugIDs = null;
+    loadBugsToState = () => {
+        const { bugs } = this.state.project;
         try {
-            bugIDs = Object.values(project.bugs);
+            const bugIDs = Object.values(bugs);
+            bugIDs.forEach(bugID => {
+                this.props.firebase.bug(bugID)
+                                   .once("value")
+                                   .then(dataSnapshot => {
+                                       let bugs = [...this.state.bugs];
+                                       const newBug = {
+                                           ...dataSnapshot.val(),
+                                           id : bugID
+                                       };
+                                       bugs.push(newBug);
+                                       this.setState({bugs:bugs});
+                                       if(bugID === this.props.match.params.bid){
+                                           this.setState({selectedBug:newBug});
+                                       }
+                                   });
+            })
         } catch (e) {
-            bugIDs = [];
             this.setState({empty : true});
         }
-        
-        bugIDs.forEach(bugID => {
-            this.props.firebase.bug(bugID)
-                               .once("value")
-                               .then(dataSnapshot => {
-                                   let bugs = [...this.state.bugs];
-                                   const newBug = {
-                                       ...dataSnapshot.val(),
-                                       id : bugID
-                                   };
-                                   bugs.push(newBug);
-                                   this.setState({bugs:bugs});
-                                   if(bugID === this.props.match.params.bid){
-                                       this.setState({selectedBug:newBug});
-                                   }
-                               });
-        })
     }
 
-    loadUsersToState = project => {
-        const userIDs = [...project.users];
+    loadUsersToState = () => {
+        const userIDs = [...Object.values(this.state.project.users)];
 
         userIDs.forEach(uid => {
             this.props.firebase.user(uid)
@@ -104,21 +115,21 @@ class ProjectPage extends Component {
                                        ...data,
                                        uid : uid,
                                    }
-                                   if(data){
-                                   users.push(newUser);
-                                   this.setState({users:users});}
+                                   if(data && !users.includes(newUser)){
+                                       users.push(newUser);
+                                       this.setState({users:users});}
                                });
         })
     }
 
-    loadAdminsToState = project => {
-        const adminIDs = [...project.admins];
+    loadAdminsToState = () => {
+        const adminIDs = [...Object.values(this.state.project.admins)];
 
         adminIDs.forEach(uid => {
             this.props.firebase.user(uid)
                                .once("value")
                                .then(dataSnapshot => {
-                                   let admins = [...this.state.users];
+                                   let admins = [...this.state.admins];
                                    const data = dataSnapshot.val();
                                    const newAdmin = {
                                        ...data,
@@ -132,23 +143,22 @@ class ProjectPage extends Component {
         })
     }
 
-    loadActionsToState = project => {
-        let actionIDs = [];
+    loadActionsToState = () => {
         try {
-            actionIDs = [...Object.values(project.actions)];
+            const actionIDs = [...Object.values(this.state.project.actions)];
+            actionIDs.forEach(actionID => {
+                this.props.firebase.action(actionID)
+                                   .once("value")
+                                   .then(dataSnapshot => {
+                                       let actions = [...this.state.actions];
+                                       actions.push(dataSnapshot.val());
+                                       this.setState({actions:actions});
+                                   })
+            })
         } catch(e) {
-
+            this.setState({noActions : true});
         }
 
-        actionIDs.forEach(actionID => {
-            this.props.firebase.action(actionID)
-                               .once("value")
-                               .then(dataSnapshot => {
-                                   let actions = [...this.state.actions];
-                                   actions.push(dataSnapshot.val());
-                                   this.setState({actions:actions});
-                               })
-        })
     }
 
     addBugHandler = () => {
@@ -161,14 +171,16 @@ class ProjectPage extends Component {
 
     bugSelectHandler = bug => {
 
-        this.setState({selectedBug:bug});
+        this.setState({selectedBug:bug}, console.log(this.state.selectedBug));
         const newPath = "/projects/" + this.props.pid + "/" + bug.id;
         this.props.history.push(newPath);
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     render () {
-        const { project, loading, bugs, users, admins, empty, selectedBug } = this.state;
+        let { project, loading, bugs, users, admins, empty, selectedBug, actions } = this.state;
+
+        const invertedActions = actions.reverse();
 
         const main = (
             <div className = {classes.Main}>
@@ -201,7 +213,7 @@ class ProjectPage extends Component {
 
         return (
             loading ? (
-                <div>Loading content...</div>
+                <Loading />
             ) : (
                 <div className={classes.Container}>
                     <div className={classes.Heading}>
@@ -218,9 +230,12 @@ class ProjectPage extends Component {
                             {admins.map(user => <User admin user={user} />)}
                         </div>
                         {this.state.addingBug ? <BugAdder close ={this.cancelNewBugHandler}{...this.props}/> : main}
-                        <div className={classes.Notifications}>
+                        <div className={classes.NotificationContainer}>
                             <h2>Recent Activity</h2>
-                            {this.state.actions.map(action => <Notification firebase={this.props.firebase} action={action}/>)}
+                            <div className={classes.Notifications}>
+                                {invertedActions.map(action => <Notification firebase={this.props.firebase} action={action}/>)}
+                            </div>
+                            <div className ={classes.NotificationFadeOut}/>
                         </div>
                     </div>
                 </div>
@@ -261,7 +276,6 @@ class Notification extends Component {
     }
 
     loadUserToState = () => {
-        console.log(this.props.action.user)
         this.props.firebase.user(this.props.action.user)
                            .once("value")
                            .then(dataSnapshot => {
@@ -278,13 +292,12 @@ class Notification extends Component {
     }
 
     render() {
-        console.log(this.state);
         return(
         <div className={classes.Notification}>
             {(this.state.loadingUser || this.state.loadingBug) ? <Loading /> : (
                 <React.Fragment>
-                    <img src = {this.state.user.image} />
-                    <p>{this.state.user.username + this.state.text + this.state.bug.title}</p>
+                    {this.state.user ? <img src = {this.state.user.image} /> : <img src = {defaultpp} />}
+                    <p>{(this.state.user ? this.state.user.username : "Deleted User") + this.state.text + this.state.bug.title}</p>
                 </React.Fragment>
             )}
         </div>)

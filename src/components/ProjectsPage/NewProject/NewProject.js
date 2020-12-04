@@ -40,7 +40,7 @@ class AddProjectForm extends Component {
 
         this.props.firebase.project(projectID).set(projectData);
         users.forEach(uid => {
-            this.props.firebase.user(uid).child('projects').push(projectID);
+            this.props.firebase.user(uid).child('projects').child(projectID).set(projectID);
         });
 
         this.props.history.push("/projects/" + projectID);

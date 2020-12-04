@@ -61,10 +61,14 @@
 .Notifications {
     min-width: 300px;
     margin-top: 12px;  
-    max-height: 100vhpx;
+    max-height: calc(100vh - 250px);
+    position: relative;
+    overflow-y: scroll;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
-.Notifications h2 {
+.NotificationContainer h2 {
     margin-top: 0;
     color: var(--text-colour);
 }
@@ -77,6 +81,26 @@
     box-shadow: 2px 2px 3px rgba(0,0,0,0.2); 
     transition: all 400ms;
 }
+
+*::-webkit-scrollbar {
+    width: 12px;
+  }
+*:-webkit-scrollbar-track {
+    background: var(--bg-accent);
+  }
+*::-webkit-scrollbar-thumb {
+    background-color: darkgray;
+    border-radius: 20px;
+    border: 2px solid white;
+  }
+
+.NotificationFadeOut {
+    position: absolute;
+    bottom: 0;
+    height: 40px;
+    width: 100%;
+}
+
 
 .Notification:hover {
    transform: translateX(-5px);
@@ -116,3 +140,4 @@
 .AddContainer span {
     user-select: none;
 }
+

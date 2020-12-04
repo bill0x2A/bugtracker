@@ -1,0 +1,60 @@
+.Main {
+    display: flex;
+    color: white;
+    padding : 20px 40px;
+}
+
+.UsersContainer {
+    background: var(--bg-accent);
+    padding: 20px 40px;
+    border-radius: 5px;
+    margin-right : 10px;
+}
+
+.UsersContainer h2 {
+    margin-top: 0;
+}
+
+.User {
+    background: var(--bg);
+    padding : 5px 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.User h3 {
+    margin: 0px 10px;
+}
+
+.User img {
+    width : 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.UserInfo {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.Controls {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.KickButton {
+    background: red;
+    padding : 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.AdminButton {
+    background: purple;
+    padding : 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}

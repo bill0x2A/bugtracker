@@ -14,15 +14,7 @@ import Invites from './Invites/Invites';
 const STARTER_STATE = {
     userIsFriend : false,
     loadingUser : true,
-    loadingProjects : true,
-    loadingFriends  : true,
-    loadingFriendInvites : true,
-    loadingProjectInvites : true,
     loadingPP : true,
-    projects : [],
-    friends : [],
-    friendInvites : [],
-    projectInvites : [],
 }
 
 class HomePage extends Component {
@@ -40,7 +32,10 @@ class HomePage extends Component {
 
         this.props.firebase.user(uid)
                            .on("value", dataSnapshot => {
-                            this.setState({ user:dataSnapshot.val() , loadingUser : false });
+                            let RESET_STATE = {...STARTER_STATE }
+                            RESET_STATE.loadingUser = false;
+                            RESET_STATE.user = dataSnapshot.val();
+                            this.setState(RESET_STATE);
                         });
     }
 

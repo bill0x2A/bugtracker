@@ -43,11 +43,37 @@
     font-family: 'Roboto', sans-serif;
     height : 35px;
     font-size : 16px;
+    margin-bottom: 5px;
+    padding: 5px 10px;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    background-color: lightgray;
+    overflow: auto;
+    outline: none;
+    box-shadow: none;
+    display: block;
+}
+
+.AddProjectForm button {
+    background-color: var(--bg);
+    color: white;
+    position: absolute;
+    bottom : 10px;
+    right : 10px;
+    align-self: flex-end;
+    border: 2px solid white;
+    padding : 5px 15px;
+    cursor: pointer;
 }
 
 
 .AddProjectForm textarea {
     height: 120px;
+    display: block;
+    width: 100%;
+    border-radius: 5px;
+    background: lightgray;
     font-family: 'Roboto', sans-serif;
     font-size : 16px;
 }

@@ -15,6 +15,7 @@ import NewProject from './components/ProjectsPage/NewProject/NewProject';
 import ProjectPage from './components/ProjectsPage/ProjectPage/ProjectPage';
 import UserPage from './components/UserPage/Other/Other';
 import AccountPage from './components/AccountPage/AccountPage';
+import AdminPage from './components/AdminPage/AdminPage';
 
 import * as ROUTES from './constants/routes';
 
@@ -51,6 +52,7 @@ class App extends Component {
             <Route path={ROUTES.ACCOUNT} component={AccountPage}/>
             <Route path={ROUTES.HOME} component={HomePage} />
             <Route path={ROUTES.USER} component={UserPage} />
+            <Route path={ROUTES.ADMIN} component={AdminPage} />
             <Route path={ROUTES.BUG} component={ProjectPage} />
             <Route path={ROUTES.NEWPROJECT} component={NewProject} />
             <Route path={ROUTES.PROJECT} component={ProjectPage} />

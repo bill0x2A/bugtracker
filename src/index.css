@@ -19,6 +19,18 @@ code {
     monospace;
 }
 
+body::-webkit-scrollbar {
+  width: 12px;               /* width of the entire scrollbar */
+}
+body::-webkit-scrollbar-track {
+  background: var(--bg-accent);        /* color of the tracking area */
+}
+body::-webkit-scrollbar-thumb {
+  background-color: darkgray;    /* color of the scroll thumb */
+  border-radius: 20px;       /* roundness of the scroll thumb */
+  border: 3px solid var(--bg-accent);  /* creates padding around scroll thumb */
+}
+
 
 :root {
   --bg : #203647;

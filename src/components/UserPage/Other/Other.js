@@ -11,9 +11,7 @@ const STARTER_STATE = {
     userIsFriend : false,
     userHasFriends : true,
     loadingUser : true,
-    loadingProjects : true,
     loadingFriends : true,
-    projects : [],
     noProjects : false,
 }
 
@@ -27,42 +25,26 @@ class UserPage extends Component {
         this.loadUserToState();
     }
     
-    componentDidUpdate(prevProps){
-        if(prevProps !== this.props){
-            this.setState(STARTER_STATE, this.loadUserToState);
-        }
-    }
 
     loadUserToState = () => {
         const uid = this.props.match.params.uid;
         this.props.firebase.user(uid)
-                           .once("value", dataSnapshot => {
-                            const user = {
-                                ...dataSnapshot.val(),
-                                uid : uid,
-                            }
-                             this.setState({ user:user , loadingUser : false });
-                        })
+                           .on("value", dataSnapshot => {
+                            let RESET_STATE = {...STARTER_STATE }
+                            RESET_STATE.loadingUser = false;
+                            RESET_STATE.user = dataSnapshot.val();
+                            this.setState(RESET_STATE, () => {
+                                this.checkNoProjects();
+                                this.checkNoProjects();
+                            });
+                        });
     }
 
-    loadProjectsToState = () => {
+    checkNoProjects = () => {
         try {
             const projectIDs = [...Object.values(this.state.user.projects)];
-            projectIDs.forEach(pid => {
-                this.props.firebase.project(pid)
-                                   .once("value")
-                                   .then(dataSnapshot => {
-                                       let projects = [...this.state.projects];
-                                       const newProject = {
-                                           ...dataSnapshot.val(),
-                                           pid : pid,
-                                       }
-                                       projects.push(newProject);
-                                       this.setState({ projects:projects, loadingProjects:false });
-                                   })
-            })
         } catch(e) {
-            this.setState({ projects:[], loadingProjects :false, noProjects : true});
+            this.setState({ noProjects : true});
         }
 
     }

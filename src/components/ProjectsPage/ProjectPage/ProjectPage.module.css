@@ -8,6 +8,7 @@
     padding-left: 15px;
     width: 100%;
     justify-content: space-around;
+    position: relative;
 }
 
 .Heading {
@@ -141,3 +142,26 @@
     user-select: none;
 }
 
+.AdminAccess {
+    position: absolute;
+    top: 0;
+    right : 0;
+    width: 120px;
+    border-radius: 4px;
+    text-align: center;
+    padding : 5px 10px;
+    background: var(--bg-accent);
+    transition: all 200ms;
+}
+
+.AdminAccess:hover {
+    filter : contrast(110%);
+}
+
+.NoBugsContainer {
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(100% - 300px);
+}

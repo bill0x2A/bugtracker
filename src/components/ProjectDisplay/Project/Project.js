@@ -8,7 +8,15 @@ const Project = props => {
     const { project } = props;
     const route = "/projects/" + project.pid;
 
-    
+    let users = [];
+
+
+    // If the project no longer exists, do not render it
+    try{
+        users = [...Object.values(project.users)];
+    } catch(e){
+        return null
+    }
 
     return (
         <div className={classes.Project}>
@@ -16,7 +24,7 @@ const Project = props => {
                 <h2>{project.name}</h2>
             </div>
             <div className = {classes.ProjectBody}>
-                {project.users.includes(props.authUser.user.uid) && <Link to = {route}>Go to project</Link>}
+                {users.includes(props.authUser.user.uid) && <Link to = {route}>Go to project</Link>}
             </div>
         </div>
     )

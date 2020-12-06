@@ -47,13 +47,15 @@ class ProjectPage extends Component {
     }
 
     userIsAdmin = () => {
-        const { project } = this.state;
-        const uid = this.props.authUser.uid;
+        const { admins } = this.state.project;
+        const uid = this.props.authUser.user.uid;
 
-        if(project.admins.includes(uid)){
-            return true;
+        const adminsArray = [...Object.values(admins)]
+
+        if(adminsArray.includes(uid)){
+            this.setState({isAdmin : true});
         } else {
-            return false;
+            this.setState({isAdmin : false});
         }
     }
 
@@ -70,6 +72,9 @@ class ProjectPage extends Component {
                                 this.loadUsersToState();
                                 this.loadAdminsToState();
                                 this.loadActionsToState();
+                                this.userIsAdmin();
+
+                                // If the user is kicked, instantly revoke their access
                                 if(!this.userIsMember()){
                                     this.props.history.push('/');
                                 }
@@ -165,7 +170,7 @@ class ProjectPage extends Component {
         this.setState({addingBug : true});
     }
 
-    cancelNewBugHandler = () => {
+    closeNewBugHandler = () => {
         this.setState({addingBug : false});
     }
 
@@ -184,7 +189,7 @@ class ProjectPage extends Component {
 
         const main = (
             <div className = {classes.Main}>
-            {empty && <p>No bugs found!</p>}
+            {empty && <NoBugs/>}
             <div className = {classes.Bugs}>
             <div>
                 {selectedBug && <SelectedBug
@@ -229,14 +234,22 @@ class ProjectPage extends Component {
                             <h2>Admins</h2>
                             {admins.map(user => <User admin user={user} />)}
                         </div>
-                        {this.state.addingBug ? <BugAdder close ={this.cancelNewBugHandler}{...this.props}/> : main}
+                        {this.state.addingBug ? <BugAdder 
+                                                    close ={this.closeNewBugHandler}{...this.props}
+                                                />
+                                                    : main}
                         <div className={classes.NotificationContainer}>
                             <h2>Recent Activity</h2>
                             <div className={classes.Notifications}>
                                 {invertedActions.map(action => <Notification firebase={this.props.firebase} action={action}/>)}
                             </div>
-                            <div className ={classes.NotificationFadeOut}/>
                         </div>
+                        {this.state.isAdmin && (
+                            <Link to={"/projects/" + this.props.pid + "/admin"}>
+                                <div className={classes.AdminAccess}>Admin Page</div>
+                            </Link>
+                        )}
+                        
                     </div>
                 </div>
             )
@@ -292,6 +305,10 @@ class Notification extends Component {
     }
 
     render() {
+        // Prevents component breaking if a relavent bug is deleted from the project
+        if(!this.state.bug){
+            return null;
+        }
         return(
         <div className={classes.Notification}>
             {(this.state.loadingUser || this.state.loadingBug) ? <Loading /> : (
@@ -302,6 +319,14 @@ class Notification extends Component {
             )}
         </div>)
     }
+}
+
+const NoBugs = () => {
+    return (
+        <div className ={classes.NoBugsContainer}>
+            <h2>No bugs yet, add one below!</h2>
+        </div>
+    )
 }
 
 const ProjectPageWithAuth = props => {

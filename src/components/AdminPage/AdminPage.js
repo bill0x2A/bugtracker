@@ -39,9 +39,38 @@ class AdminPage extends Component {
                                     this.loadAdminsToState();
                                     this.loadBugsToState();
                                     this.loadUsersToState();
+                                    this.userIsAdmin();
+                                    this.projectHasMultipleAdmins();
+                                    this.projectHasUsers();
                                 });
                            })
         }
+
+    userIsAdmin = () => {
+        const admins = [...Object.values(this.state.project.admins)];
+        if(admins.includes(this.props.authUser.user.uid)){
+            return true
+        } else {
+            this.props.history.push("/projects/" + this.props.projectID);
+            return false
+        }
+    }
+
+    projectHasMultipleAdmins = () => {
+        const admins = [...Object.values(this.state.project.admins)];
+        if(admins.length === 1){
+            this.setState({lastAdmin : true});
+        } else {
+            this.setState({lastAdmin : false});
+        }
+    }
+
+    projectHasUsers = () => {
+        const users = [...Object.values(this.state.project.users)];
+        if(users.length === 0){
+            this.props.firebase.project(this.props.pid).remove();
+        }
+    }
 
     loadUsersToState = () => {
         try {
@@ -96,9 +125,10 @@ class AdminPage extends Component {
 
     loadBugsToState = () => {
         try {
-            const bugIDs = this.state.project.bugs;
+            const bugIDs = [...Object.values(this.state.project.bugs)];
+
             bugIDs.forEach(id => {
-                this.props.bug(id).once("value").then(dataSnapshot => {
+                this.props.firebase.bug(id).once("value").then(dataSnapshot => {
                     let bugs = [...this.state.bugs];
                     const newBug = {
                         ...dataSnapshot.val(),
@@ -110,6 +140,7 @@ class AdminPage extends Component {
             })
         } catch(e){
             this.setState({noBugs : true});
+            console.log(e);
         }
     }
 
@@ -151,6 +182,11 @@ class AdminPage extends Component {
                            .child("users")
                            .child(user.uid)
                            .set(user.uid);
+
+        this.props.firebase.user(user.uid)
+                           .child("projects")
+                           .child(this.props.pid)
+                           .set(this.props.pid);
     }
 
     addAdmin = user => {
@@ -167,17 +203,64 @@ class AdminPage extends Component {
                            .remove();
     }
 
+    deleteBugHandler = bug => {
+        const { id } = bug;
+
+        this.props.firebase.bug(id).remove();
+        this.props.firebase.project(this.props.pid)
+                           .child("bugs")
+                           .child(id)
+                           .remove();
+    }
+
+    confirmingDeleteHandler = () => {
+        this.setState({confirmingDelete:true})
+    }
+
+    confirmDeleteHandler = () => {
+        this.props.firebase.project(this.props.pid).remove();
+        this.props.history.push("/home");
+    }
+
     render(){
-        const {users, admins, friends} = this.state;
+        const {project, users, admins, friends, bugs} = this.state;
+
+        let userList, adminList = [];
+
+        try {
+            userList = [...Object.values(project.users)];
+            adminList = [...Object.values(project.admins)];
+        } catch (e){
+            // Do nothing
+        }
+
+        const confirmingDelete = (
+            <div className = {classes.ModalContainer}>
+                <div className = {classes.ConfirmDelete}>
+
+                    <h2>Are you sure? This action cannot be undone.</h2>
+                    <div className = {classes.Controls}>
+                        <div onClick = {this.confirmDeleteHandler} className ={classes.ConfirmButton}>CONFIRM DELETE</div>
+                        <div onClick = {() => this.setState({confirmingDelete:false})} className = {classes.CancelButton}>NO!</div>
+                    </div>
+                </div>
+            </div>
+        )
+
         return (
             !this.state.loading ? (
                 <div className={classes.Container}>
+                    {this.state.confirmingDelete && confirmingDelete}
                     <h2>Admin Page - {this.state.project.name}</h2>
+                    <p>Welcome to your admin controls, please note that projects must keep at least one admin and projects with no remaining users are deleted.</p>
+                    <p>To add a user to the project, they must first accept your friend request.</p>
                     <div className={classes.Main}>
                         <div className={classes.UsersContainer}>
                             <h2>User Management</h2>
-                            {users.map(user => <User 
-                                                    admin = {admins.includes(user)}
+                            {users
+                                .filter(user => !adminList.includes(user.uid))
+                                .map(user => <User 
+                                                    admin = {adminList.includes(user.uid)}
                                                     kick  = {() => this.removeUser(user)}
                                                     addAdmin = {() => this.addAdmin(user)}
                                                     user = {user}
@@ -188,16 +271,27 @@ class AdminPage extends Component {
                             {admins.map(admin => <Admin 
                                                     removeAdmin = {() => this.removeAdmin(admin)}
                                                     admin = {admin}
+                                                    lastAdmin = {this.state.lastAdmin}
                                                 />)}
                         </div>
                         <div className={classes.UsersContainer}>
                         <h2>Add Users</h2>
-                            {friends.map(friend => <Friend 
+                            {friends
+                                .filter(friend => !userList.includes(friend.uid))
+                                .map(friend => <Friend 
                                                     add = {() => this.addUser(friend)}
                                                     friend = {friend}
                                                 />)}
-                        </div>                                  
+                        </div> 
+                        <div className={classes.UsersContainer}>
+                        <h2>Bug Removal</h2>
+                            {bugs.map(bug => <Bug 
+                                                bug = {bug}
+                                                delete = {() => this.deleteBugHandler(bug)}
+                                            />)}
+                        </div>                                                            
                     </div>
+                    <div onClick = {this.confirmingDeleteHandler} className ={classes.DeleteProject}>DELETE PROJECT</div>
                 </div>
             ) : <Loading />
         )
@@ -233,7 +327,7 @@ const Admin = props => {
                 <h3>{username}</h3>
             </div>
             <div className={classes.Controls}>
-                <div className = {classes.AdminButton} onClick = {props.removeAdmin}>Remove</div>
+                {!props.lastAdmin ? <div className = {classes.AdminButton} onClick = {props.removeAdmin}>Remove</div> : <div>Projects must have at least one admin</div>}
             </div>
         </div>
     )
@@ -252,6 +346,17 @@ const Friend = props => {
             <div className={classes.Controls}>
                 <div className = {classes.AdminButton} onClick = {props.add}>Add To Project</div>
             </div>
+        </div>
+    )
+}
+
+const Bug = props => {
+    const { bug } = props;
+
+    return (
+        <div className={classes.Bug}>
+           <h3>{bug.title}</h3>
+           <div className={classes.Delete} onClick ={props.delete}>X</div>
         </div>
     )
 }

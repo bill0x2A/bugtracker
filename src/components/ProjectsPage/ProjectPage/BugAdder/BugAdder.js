@@ -32,12 +32,14 @@ class AddBugForm extends Component {
         const newBug = { ...this.state,
                          project : this.props.pid,
                          creator : this.props.authUser.user.uid,
+                         resolved : false,
                         };
         
         this.props.firebase.bug(bugID).set(newBug);
         this.props.firebase.project(this.props.pid)
                            .child("bugs")
-                           .push(bugID);
+                           .child(bugID)
+                           .set(bugID);
 
         const time = new Date();
         const newAction = {

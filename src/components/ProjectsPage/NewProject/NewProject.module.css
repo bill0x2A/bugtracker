@@ -67,6 +67,11 @@
     cursor: pointer;
 }
 
+.AddProjectForm button:disabled {
+    background: gray;
+    cursor:not-allowed;
+}
+
 
 .AddProjectForm textarea {
     height: 120px;

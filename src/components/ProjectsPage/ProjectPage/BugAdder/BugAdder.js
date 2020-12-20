@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 const STARTER_STATE = {
     title : '',
     entries : [{type : 'text', data : ''}],
-    urgency : 3
+    urgency : 0
 
 }
 
@@ -36,10 +36,6 @@ class AddBugForm extends Component {
                         };
         
         this.props.firebase.bug(bugID).set(newBug);
-        this.props.firebase.project(this.props.pid)
-                           .child("bugs")
-                           .child(bugID)
-                           .set(bugID);
 
         const time = new Date();
         const newAction = {
@@ -54,12 +50,14 @@ class AddBugForm extends Component {
                                            .push(newAction)
                                            .getKey();
 
-        this.props.firebase.project(this.props.pid)
-                           .child("actions")
-                           .push(newKey);        
+        this.props.firebase.project(this.props.pid).child("bugs")
+                   .child(bugID)
+                   .set(bugID);
+
+        // Action update removed to stop double load bug =(
 
         this.setState(STARTER_STATE);
-        this.props.history.push(0);
+        this.props.close();
     }
 
     entryStateAdder = entryType => {
@@ -121,8 +119,9 @@ class AddBugForm extends Component {
 
     render () {
         const { entries } = this.state;
+        const formIsValid = (this.state.title !== "") && (this.state.urgency !== 0);
         return (
-            <div class={classes.BugAddForm}>
+            <div className={classes.BugAddForm}>
                 <form onSubmit = {this.onSubmit}>
                     <input onChange = {this.onChange}
                            name = "title"
@@ -163,7 +162,10 @@ class AddBugForm extends Component {
                             value = {3}
                         />                                                
                     </div>
-                    <button style={{backgroundColor:"#4CAF50"}} type="submit">Submit Bug</button>
+                    <div className ={classes.ButtonsContainer}>
+                        <button disabled = {!formIsValid} className = {[classes.Button, classes.Submit].join(" ")} type="submit">Submit Bug</button>
+                        <button  className = {classes.Button}style={{backgroundColor:"salmon"}} onClick={this.props.close}>Cancel</button>
+                    </div>
                 </form>
             </div>
         )
@@ -176,7 +178,7 @@ const BugAdder = props => {
         <div className={classes.BugAdder}>
             <h2>Add a new bug</h2>
             <AddBugForm {...props} />
-            <button style={{backgroundColor:"salmon"}} onClick={props.close}>Cancel</button>
+            
         </div>
     )
 }

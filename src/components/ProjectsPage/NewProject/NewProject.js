@@ -94,7 +94,7 @@ class AddProjectForm extends Component {
     }
 
     render() {
-   
+        const formIsValid = (this.state.title !== "") && (this.state.desc !== "");
         return (
             <div className={classes.Container}>
                 <div className={classes.AddProjectForm}>
@@ -123,7 +123,7 @@ class AddProjectForm extends Component {
                             user={friend}
                         />
                     ))}
-                    <button type="submit">Submit</button>
+                    <button disabled ={!formIsValid} type="submit">Submit</button>
                     </form>
                 </div>
             </div>

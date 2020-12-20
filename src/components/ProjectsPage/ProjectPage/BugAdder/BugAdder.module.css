@@ -1,3 +1,13 @@
+.BugAdder h2 {
+    color: white;
+}
+
+.BugAddForm {
+    background: var(--bg-accent);
+    padding : 10px 20px;
+    border-radius: 5px;
+}
+
 .BugAddForm input {
     display: block;
 }
@@ -14,6 +24,7 @@
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
+    font-family: inherit;
 }
 
 .BugAddForm textarea:active{
@@ -95,6 +106,16 @@ input[type='radio']:checked:after {
     display: inline-block;
     font-size: 16px;
     cursor: pointer;
+    border-radius: 2px;
+}
+
+.Submit {
+    background-color:#4CAF50
+}
+
+.Button:disabled {
+    background-color: gray;
+    cursor: not-allowed;
 }
 
 .BugAdder {
@@ -107,6 +128,11 @@ input[type='radio']:checked:after {
 .BugAddForm {
     width: 70%;
     min-width: 450px;
+}
+
+.ButtonsContainer {
+    display: flex;
+    justify-content: space-between;
 }
 
 .NewSection {

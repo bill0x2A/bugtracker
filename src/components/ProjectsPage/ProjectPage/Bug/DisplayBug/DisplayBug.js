@@ -1,14 +1,16 @@
 import React from 'react';
 import classes from './DisplayBug.module.css';
 import { withRouter } from 'react-router-dom';
+import Prism from 'prismjs'
 
 const elementCreator = entry => {
     switch(entry.type){
         case "image":
             return <img src={entry.data} className={classes.Image}/>;
         case "text" :
+            return <p>{entry.data}</p>
         case "code" :
-            return <p>{entry.data}</p>;
+            return <pre><code className="language-javascript">{`${entry.data}`}</code></pre>;
         default:
             return null;
     }
@@ -16,7 +18,7 @@ const elementCreator = entry => {
 
 const Bug = props => {
     let headerColour = null;
-    const {urgency, title, entries, id} = props.bug;
+    const {urgency, title, entries, id, resolved} = props.bug;
     switch(urgency){
         case "1": 
             headerColour = "red";
@@ -33,6 +35,7 @@ const Bug = props => {
 
     return (
         <div className={classes.Bug} onClick = {props.click}>
+            {resolved && <div className={classes.ResolvedOverlay}><h3>MARKED RESOLVED</h3></div>}
             <div style = {{background : headerColour}} className={classes.Header}></div>
             <h3>{title}</h3>
             {entries.map(entry => elementCreator(entry))}

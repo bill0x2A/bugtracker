@@ -16,7 +16,7 @@
 }
 
 .Selected h3 {
-    margin-top: 10px;
+    margin-top: 40px;
     font-size: 25px;
 }
 
@@ -67,8 +67,16 @@
 }
 
 .Button {
-    background: var(--bg);
-    border-radius: 3px;
+    border: none;
+    color: white;
+    padding: 6px 17px;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 2px;
+    background-color: var(--bg-accent);
 }
 
 .Inputs {
@@ -132,6 +140,24 @@ input[type='radio']:checked:after {
     border-top: 2px solid gray;
     display: flex;
     flex-direction: column;
+}
+
+.NewCommentForm input, textarea {
+    display: block;
+    border : none;
+    margin: 8px 0px;
+    width: 320px;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+.NewCommentForm textarea {
+    display: inline-flexbox;
+    min-height: 100px;
+    max-width: 100%;
+    margin-right : 0px !important;
+    font-family: inherit;
+    resize: vertical;
 }
 
 .NewSection {
@@ -202,4 +228,24 @@ input[type='radio']:checked:after {
     margin : 0;
     color: var(--text-colour);
     font-size : 14px
+}
+
+.Resolved {
+    position: absolute;
+    top: 30px;
+    right : 0;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border : 1px solid black;
+    padding : 5px 10px;
+    width: 140px;
+    background: green;
+    color: white;
+    z-index: 10;
+    cursor: pointer;
+    transition: all 200ms;
+}
+
+.Resolved:hover {
+    filter: contrast(140%);
 }

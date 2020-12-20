@@ -9,9 +9,8 @@ body {
   font-family: 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(-100deg, var(--bg) 59.45%, var(--lighter) 59.5%);
+  background: #00bab6;
   min-height: 100vh;
-  overflow-x: hidden
 }
 
 code {

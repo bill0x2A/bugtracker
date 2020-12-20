@@ -9,11 +9,44 @@
 }
 
 .Container h1 {
-    font-size: 50px;
+    font-size: 30px;
 }
 
 .Container img {
     height: auto;
-    width: 300px;
+    width: 100px;
     border-radius: 8px;
+}
+
+.IntroText {
+    list-style: none;
+}
+
+.IntroText li {
+    padding : 20px 40px;
+    font-size: 30px;
+    color: black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border : 3px solid black;
+    text-transform: uppercase;
+    background: white;
+    margin-bottom : 10px;
+}
+
+.IntroText img {
+    height: 40px;
+    width: 40px;
+    margin-left: 50px;
+}
+
+.InButton {
+    border: 3px solid black;
+    padding : 5px 15px;
+    color: black;
+}
+
+.InButton:hover {
+    background: rgba(0,0,0,0.1);
 }

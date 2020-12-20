@@ -117,7 +117,7 @@ class AccountPage extends Component {
                             className={classes.ImagePreview}
                             src={filePreview}
                         />}
-                        <button onClick = {this.onSubmit}>Submit Changes</button>
+                        <button className={classes.Button} onClick = {this.onSubmit}>Submit Changes</button>
                         <div 
                          className={classes.DeleteButton}
                             onClick ={() => this.setState({confirmDeleting : true})}>

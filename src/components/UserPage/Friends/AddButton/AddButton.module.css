@@ -1,11 +1,15 @@
 .AddButton {
     background: var(--bg);
+    color: white;
+    padding: 5px 10px;
     border-radius: 4px;
     transition: all 100ms;
 
     position: absolute;
     bottom : 10px;
     right : 10px;
+    border : none;
+    cursor: pointer;
 }
 
 .AddButton:hover {

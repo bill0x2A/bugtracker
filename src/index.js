@@ -43,7 +43,9 @@ store.subscribe(() => {
 ReactDOM.render(
   <Provider store ={store}> 
     <FirebaseContext.Provider value = {new Firebase()}>
-      <App />
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
     </FirebaseContext.Provider>
   </Provider>,
   document.getElementById('root')

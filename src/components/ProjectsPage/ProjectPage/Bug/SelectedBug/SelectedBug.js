@@ -2,14 +2,16 @@ import React, { Component } from 'react';
 import classes from './SelectedBug.module.css';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import Prism from 'prismjs';
 
 const elementCreator = entry => {
     switch(entry.type){
         case "image":
             return <img src={entry.data} className={classes.Image}/>;
         case "text" :
+            return <p>{entry.data}</p>
         case "code" :
-            return <p>{entry.data}</p>;
+            return <pre><code className="language-javascript">{entry.data}</code></pre>;
         default:
             return null;
     }
@@ -170,6 +172,7 @@ class CommentAddingForm extends Component {
             <div class={classes.NewCommentForm}>
                 <form onSubmit = {this.onSubmit}>
                     <input onChange = {this.onChange}
+                           className = {classes.AddingInput}
                            name = "title"
                            type = "text"
                            value = {this.state.title}
@@ -187,7 +190,7 @@ class CommentAddingForm extends Component {
                               className ={classes.AddImage}
                         >+ Add Code</span>
                     </div>
-                    <button type="submit">Submit Comment</button>
+                    <button type="submit" className={classes.Button}>Submit Comment</button>
                 </form>
             </div>
         )
@@ -270,7 +273,10 @@ class Bug extends Component {
                                .once("value")
                                .then(dataSnapshot => {
                                    let comments = [...this.state.commentData];
-                                   const newComment = dataSnapshot.val();
+                                   const newComment = {
+                                       ...dataSnapshot.val(),
+                                       id : commentID,
+                                    }
                                    comments.push(newComment);
                                    this.setState({commentData : comments});
                                })
@@ -281,13 +287,36 @@ class Bug extends Component {
         this.loadComments();
         this.headerColourSelector();
         this.routeGen();
+    }
 
+    resolve = () => {
+        const time = new Date();
+        const newAction = {
+            type  : "resolve",
+            user  : this.props.authUser.user.uid,
+            time  : time.getTime(),
+            bugID : this.state.id,
+        }
+
+        this.props.firebase.bug(this.state.id)
+                           .child("resolved")
+                           .set(true);
+
+        const newKey  = this.props.firebase.actions()
+                                           .push(newAction)
+                                           .getKey();
+
+        this.props.firebase.project(this.props.pid)
+                           .child("actions")
+                           .push(newKey);
     }
 
     render(){
         const { entries, title, headerColour, commentData } = this.state;
         return (
             <div className={classes.Selected}>
+                <div className={classes.Resolved}
+                     onClick ={this.resolve}>Mark Resolved</div>      
                 <div style = {{background : headerColour}} className={classes.Header}></div>
                 <h3>{title}</h3>
                 {entries.map(entry => elementCreator(entry))}
@@ -303,10 +332,10 @@ class Bug extends Component {
                                     <div className = {classes.Green}
                                         onClick = {() => this.submitChangeUrgency("3")}
                                     /> 
-                                </div>                                           
+                                </div>                                
                 </div>
                 <h3>Comments</h3>
-                {this.state.commentData.map(comment => <Comment firebase = {this.props.firebase} comment={comment} />)}
+                {this.state.commentData.map(comment => <Comment firebase = {this.props.firebase} comment={comment} key = {comment.id} />)}
                 {this.state.addingComment ? <CommentAddingForm submit = {this.submitComment} {...this.props} /> : <button className={classes.Button}
                                                                                             onClick = {this.addingCommentHandler}
                                                                                     >Add Comment</button>}

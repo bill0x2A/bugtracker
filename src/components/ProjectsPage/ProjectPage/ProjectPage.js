@@ -156,7 +156,11 @@ class ProjectPage extends Component {
                                    .once("value")
                                    .then(dataSnapshot => {
                                        let actions = [...this.state.actions];
-                                       actions.push(dataSnapshot.val());
+                                       const newAction = {
+                                           ...dataSnapshot.val(),
+                                           id : actionID,
+                                       }
+                                       actions.push(newAction);
                                        this.setState({actions:actions});
                                    })
             })
@@ -172,6 +176,7 @@ class ProjectPage extends Component {
 
     closeNewBugHandler = () => {
         this.setState({addingBug : false});
+        console.log("Running closeNewBugHandler");
     }
 
     bugSelectHandler = bug => {
@@ -204,6 +209,7 @@ class ProjectPage extends Component {
                         click = {() => this.bugSelectHandler(bug)}
                         bug={bug}
                         pid={this.props.pid}
+                        key={bug.id}
                     />)
             })}
             </div>
@@ -229,19 +235,24 @@ class ProjectPage extends Component {
                     <div className={classes.BodyContainer}>
                         <div className = {classes.UserContainer}>
                             <h2>Users</h2>
-                            {users.map(user => <User user={user} />)}
+                            {users.map(user => <User user={user} key={user.uid} />)}
                             <br/>
                             <h2>Admins</h2>
-                            {admins.map(user => <User admin user={user} />)}
+                            {admins.map(user => <User admin user={user} key={user.uid} />)}
                         </div>
                         {this.state.addingBug ? <BugAdder 
-                                                    close ={this.closeNewBugHandler}{...this.props}
+                                                    close ={this.closeNewBugHandler}
+                                                    {...this.props}
                                                 />
                                                     : main}
                         <div className={classes.NotificationContainer}>
                             <h2>Recent Activity</h2>
                             <div className={classes.Notifications}>
-                                {invertedActions.map(action => <Notification firebase={this.props.firebase} action={action}/>)}
+                                {invertedActions.map(action => <Notification
+                                                                    firebase={this.props.firebase}
+                                                                    action={action}
+                                                                    key={action.id}
+                                                                />)}
                             </div>
                         </div>
                         {this.state.isAdmin && (
@@ -275,6 +286,9 @@ class Notification extends Component {
     parseAction = () => {
         let text = null;
         switch(this.props.action.type){
+            case "resolve" : 
+                text = " marked as resolved - "
+                break;
             case "addComment":
                 text = " added a comment to "
                 break;

@@ -39,11 +39,14 @@
     display: block;
 }
 
-.Main button {
+.Button {
     margin-top : 15px;
     border-radius: 4px;
     background: var(--bg);
+    color: white;
+    padding : 8px 15px;
     transition: all 100ms;
+    border: none;
 }
 
 .Main button:hover {

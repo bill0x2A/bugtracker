@@ -1,5 +1,8 @@
 .Container {
     padding: 20px 40px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
 .BasicInfoContainer {
@@ -12,7 +15,6 @@
     margin-bottom : 30px;
     padding-right: 60px;
     background: var(--bg-accent);
-    border-radius: 5px;
     position: relative;
     left : 50px;
 }
@@ -43,10 +45,12 @@
 
 .ProjectsContainer {
     color: var(--text-colour);
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows : repeat(10, 80px);
-    grid-gap : 20px;
+}
+
+@media only screen and (max-width: 1445px) {
+    .ProjectsContainer {
+        color: var(--text-colour);
+    }
 }
 
 .ProjectsContainer h2 {
@@ -54,37 +58,49 @@
 }
 
 .AddProjectButton {
-    height : 50px;
+    position: relative;
+    height : 40px;
+    max-width: 300px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: var(--bg-accent);
     border-radius: 5px;
-    padding : 10px 20px;
+    padding : 8px 10px;
     cursor: pointer;
     transition: all 100ms;
-    position: absolute;
-    bottom: 30px;
-    left : 40px;
+    margin-left : 20px;
+    white-space: nowrap;
 }
 
 .AddProjectButton:hover {
     filter : contrast(110%);
-    bottom : 32px;
-    left : 42px;
 }
 
 .FriendsSection {
     display: flex;
 }
 
+@media only screen and (max-width : 732px){
+    .FriendsSection {
+        flex-direction: column;
+    }
+
+    .FriendsSection .FriendInvite {
+        margin-top : 10px;
+    }
+}
+
 .BioContainer {
     background: var(--bg-accent);
     color : white;
     padding : 20px 20px;
+    width: 300px;
     min-width: 300px;
     height: max-content;
     border-radius: 5px;
+    margin-left : 20px;
+    margin-bottom : 10px;
 
     display: flex;
     flex-direction: column;
@@ -92,4 +108,21 @@
 
 .BioContainer h2 {
     margin-top : 0;
+}
+
+.ProjectsSectionHeader {
+    color: white;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.ProjectsSectionHeader h2 {
+    white-space: nowrap;
+}
+
+@media only screen and (max-width : 1050px){
+    .Main {
+        flex-direction: column;
+    }
 }

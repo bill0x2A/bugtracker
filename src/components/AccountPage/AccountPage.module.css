@@ -39,6 +39,10 @@
     display: block;
 }
 
+.Main input[type=file] {
+    color: white;
+}
+
 .Button {
     margin-top : 15px;
     border-radius: 4px;
@@ -61,6 +65,7 @@
 .Main textarea {
     max-width: 600px;
     display: block;
+    font-family: inherit;
 }
 
 .Form {

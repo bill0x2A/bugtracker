@@ -50,3 +50,10 @@
 .InButton:hover {
     background: rgba(0,0,0,0.1);
 }
+
+.Splash {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}

@@ -255,41 +255,45 @@ class AdminPage extends Component {
                     <p>Welcome to your admin controls, please note that projects must keep at least one admin and projects with no remaining users are deleted.</p>
                     <p>To add a user to the project, they must first accept your friend request.</p>
                     <div className={classes.Main}>
-                        <div className={classes.UsersContainer}>
-                            <h2>User Management</h2>
-                            {users
-                                .filter(user => !adminList.includes(user.uid))
-                                .map(user => <User 
-                                                    admin = {adminList.includes(user.uid)}
-                                                    kick  = {() => this.removeUser(user)}
-                                                    addAdmin = {() => this.addAdmin(user)}
-                                                    user = {user}
-                                                />)}
+                        <div>
+                            <div className={classes.UsersContainer}>
+                                <h2>User Management</h2>
+                                {users
+                                    .filter(user => !adminList.includes(user.uid))
+                                    .map(user => <User 
+                                                        admin = {adminList.includes(user.uid)}
+                                                        kick  = {() => this.removeUser(user)}
+                                                        addAdmin = {() => this.addAdmin(user)}
+                                                        user = {user}
+                                                    />)}
+                            </div>
+                            <div className={classes.UsersContainer}>
+                            <h2>Admin Management</h2>
+                                {admins.map(admin => <Admin 
+                                                        removeAdmin = {() => this.removeAdmin(admin)}
+                                                        admin = {admin}
+                                                        lastAdmin = {this.state.lastAdmin}
+                                                    />)}
+                            </div>
                         </div>
-                        <div className={classes.UsersContainer}>
-                        <h2>Admin Management</h2>
-                            {admins.map(admin => <Admin 
-                                                    removeAdmin = {() => this.removeAdmin(admin)}
-                                                    admin = {admin}
-                                                    lastAdmin = {this.state.lastAdmin}
+                        <div>
+                            <div className={classes.UsersContainer}>
+                            <h2>Add Users</h2>
+                                {friends
+                                    .filter(friend => !userList.includes(friend.uid))
+                                    .map(friend => <Friend 
+                                                        add = {() => this.addUser(friend)}
+                                                        friend = {friend}
+                                                    />)}
+                            </div> 
+                            <div className={classes.UsersContainer}>
+                            <h2>Bug Removal</h2>
+                                {bugs.map(bug => <Bug 
+                                                    bug = {bug}
+                                                    delete = {() => this.deleteBugHandler(bug)}
                                                 />)}
-                        </div>
-                        <div className={classes.UsersContainer}>
-                        <h2>Add Users</h2>
-                            {friends
-                                .filter(friend => !userList.includes(friend.uid))
-                                .map(friend => <Friend 
-                                                    add = {() => this.addUser(friend)}
-                                                    friend = {friend}
-                                                />)}
-                        </div> 
-                        <div className={classes.UsersContainer}>
-                        <h2>Bug Removal</h2>
-                            {bugs.map(bug => <Bug 
-                                                bug = {bug}
-                                                delete = {() => this.deleteBugHandler(bug)}
-                                            />)}
-                        </div>                                                            
+                            </div>
+                        </div>                                                         
                     </div>
                     <div onClick = {this.confirmingDeleteHandler} className ={classes.DeleteProject}>DELETE PROJECT</div>
                 </div>

@@ -8,8 +8,10 @@ import Loading from '../../Loading/Loading';
 import { Link } from 'react-router-dom';
 import Projects from '../../ProjectDisplay/ProjectDisplay';
 import * as ROUTES from '../../../constants/routes';
+import * as actionTypes from '../../../store/actionTypes';
 import Friends from '../Friends/Friends';
 import Invites from './Invites/Invites';
+import Tutorial from './Tutorial/Tutorial';
 
 const STARTER_STATE = {
     userIsFriend : false,
@@ -54,26 +56,32 @@ class HomePage extends Component {
         
         return (
             <div className ={classes.Container}>
+                {this.props.tutorialActive && <Tutorial />}
                 <div className={classes.BasicInfoContainer}>
                     {this.state.loadingUser ?  <Loading /> : (<React.Fragment>
-                                                                     <img src ={this.state.user.image}/>
-                                                                     <h2>Welcome, {this.state.user.username}</h2>
-                                                                   </React.Fragment>)}
+                                                                <img src ={this.state.user.image}/>
+                                                                <h2>Welcome, {this.state.user.username}</h2>
+                                                              </React.Fragment>)}
                 </div>
                 <div className={classes.Main}>
-                    <div className={classes.ProjectsContainer}>
-                    <h2>My Projects</h2>
-                    {this.state.loadingUser ? <Loading /> : <Projects projectIDs={this.state.user.projects} />}
-                        <Link to={ROUTES.NEWPROJECT}>
-                            <div className={classes.AddProjectButton}>
-                                ADD NEW PROJECT
-                            </div>
-                         </Link>
+
+                    <div className = {classes.ProjectsSection}>
+                        <div className = {classes.ProjectsSectionHeader}>
+                            <h2>My Projects</h2>
+                            <Link to={ROUTES.NEWPROJECT}>
+                                <div className={classes.AddProjectButton}>ADD NEW PROJECT</div>
+                            </Link>
+                        </div>
+                        <div className={classes.ProjectsContainer}>
+                            {this.state.loadingUser ? <Loading /> : <Projects projectIDs={this.state.user.projects} />}
+                        </div>
                     </div>
+
                     <div className={classes.FriendsSection}>
                         {this.state.loadingUser ? <Loading /> : <Friends friends={this.state.user.friends} />}
                         {this.state.loadingUser ? <Loading /> : <Invites invites={this.state.user.invitations}/> }
                     </div>
+
                 </div>
             </div>
         )
@@ -82,6 +90,11 @@ class HomePage extends Component {
 
 const mapStateToProps = state => ({
     authUser : state.authUser,
+    tutorialActive : state.tutorialActive,
 })
 
-export default connect(mapStateToProps,null)(withRouter(withFirebase(HomePage)));
+const mapActionsToDispatch = dispatch => ({
+    activate : () => dispatch({type : actionTypes.ACTIVATE_TUTORIAL}),
+})
+
+export default connect(mapStateToProps,mapActionsToDispatch)(withRouter(withFirebase(HomePage)));

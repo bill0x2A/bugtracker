@@ -92,6 +92,7 @@ class AddBugForm extends Component {
                     type = "text"
                     value = {this.state.entries[index].data}
                     placeholder = "Add image URL here"
+                    key = {index}
              />
                 );
             case "code":
@@ -101,6 +102,7 @@ class AddBugForm extends Component {
                     type = "text"
                     value = {this.state.entries[index].data}
                     placeholder = "Add your code here"
+                    key = {index}
              />
                 );
             case "text":
@@ -110,6 +112,7 @@ class AddBugForm extends Component {
                     type = "text"
                     value = {this.state.entries[index].data}
                     placeholder = "Add your description here"
+                    key = {index}
              />
                 );
             default:

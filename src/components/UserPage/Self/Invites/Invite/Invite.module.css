@@ -10,6 +10,19 @@
     color: white;
 }
 
+.Controls {
+    display: flex;
+    height: 100%;
+}
+
+.Accept, .Ignore {
+    display: flex;
+    align-items: center;
+    padding : 0 5px;
+    cursor: pointer;
+    position: relative;
+}
+
 .Accept {
     background-color: green;
     transition: all 100ms;
@@ -21,11 +34,11 @@
 }
 
 .Accept:hover {
-    filter: contrast(60%);
+    filter: contrast(160%);
 }
 
 .Ignore:hover {
-    filter: contrast(60%);
+    filter: contrast(160%);
 }
 
 .InviteBody {
@@ -33,16 +46,6 @@
     width: 100%;
     align-items: center;
     justify-content: space-between;
-}
-
-.InviteBody button {
-    height: 50px;
-    width: 60px;
-    padding: 0 5px;
-    font-size: 15px;
-    font-weight: bolder;
-    border-top: 2px solid var(--lighter);
-    border-bottom: 2px solid var(--lighter);
 }
 
 .InviteBody img {

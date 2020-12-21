@@ -3,15 +3,20 @@ import classes from './SelectedBug.module.css';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Prism from 'prismjs';
+import '../../../../../prismjs/prism.css';
 
 const elementCreator = entry => {
     switch(entry.type){
         case "image":
             return <img src={entry.data} className={classes.Image}/>;
         case "text" :
-            return <p>{entry.data}</p>
+            return <p key ={entry.data}>{entry.data}</p>
         case "code" :
-            return <pre><code className="language-javascript">{entry.data}</code></pre>;
+            return (<pre className="line-numbers">
+                        <code className="language-js">
+                            {`${entry.data}`.trim()}
+                        </code>
+                   </pre>);
         default:
             return null;
     }
@@ -164,6 +169,10 @@ class CommentAddingForm extends Component {
             default:
                 return null;
         }
+    }
+    
+    componentDidUpdate(){
+        Prism.highlightAll();
     }
 
     render(){

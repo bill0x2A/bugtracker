@@ -11,11 +11,17 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background: #00bab6;
   min-height: 100vh;
+  min-width: 435px;
+}
+
+pre {
+  overflow-x: scroll;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+  overflow: auto;
 }
 
 body::-webkit-scrollbar {

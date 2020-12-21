@@ -42,8 +42,4 @@ const NavigationNonAuth = () => (
   </nav>
 )
 
-const NavItem = props => (
-  <div className = {classes.NavItemWrapper}></div>
-)
-
 export default Navigation;

@@ -86,6 +86,7 @@ class ProjectPage extends Component {
         const { bugs } = this.state.project;
         try {
             const bugIDs = Object.values(bugs);
+            console.log(bugIDs);
             bugIDs.forEach(bugID => {
                 this.props.firebase.bug(bugID)
                                    .once("value")
@@ -103,7 +104,7 @@ class ProjectPage extends Component {
                                    });
             })
         } catch (e) {
-            this.setState({empty : true});
+            //Do nothing
         }
     }
 
@@ -230,7 +231,9 @@ class ProjectPage extends Component {
                     <div className={classes.Heading}>
                     <h1>{project.name}</h1>
                         <div className={classes.HeadingCircle}></div>
-    
+                        {this.state.isAdmin && (
+                                <div className={classes.AdminAccess}><Link to={"/projects/" + this.props.pid + "/admin"}>Admin Page</Link></div>
+                        )}
                     </div>
                     <div className={classes.BodyContainer}>
                         <div className = {classes.UserContainer}>
@@ -255,12 +258,6 @@ class ProjectPage extends Component {
                                                                 />)}
                             </div>
                         </div>
-                        {this.state.isAdmin && (
-                            <Link to={"/projects/" + this.props.pid + "/admin"}>
-                                <div className={classes.AdminAccess}>Admin Page</div>
-                            </Link>
-                        )}
-                        
                     </div>
                 </div>
             )

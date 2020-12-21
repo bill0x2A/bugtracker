@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import './prismjs/prism.css'
+
 
 import { BrowserRouter as Router,
          Route,

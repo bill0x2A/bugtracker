@@ -5,12 +5,13 @@ import { connect } from 'react-redux';
 import * as ROUTES from '../../constants/routes';
 import * as actionTypes from '../../store/actionTypes';
 
-const SignOut = ({ firebase }, props) => {
+const SignOut = props => {
     const history = useHistory();
     return (
             <button type="button"
                     onClick={() => {
-                                     firebase.doSignOut();
+                                     props.firebase.doSignOut();
+                                     props.logout();
                                      history.push(ROUTES.LANDING);
                                    }
                                 }
@@ -21,7 +22,7 @@ const SignOut = ({ firebase }, props) => {
 
 const mapDispatchToProps = dispatch => (
     {
-        logout : dispatch({type : actionTypes.LOGOUT})
+        logout : () => dispatch({type : actionTypes.LOG_OUT}),
     }
 )
 

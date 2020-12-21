@@ -10,7 +10,7 @@ const elementCreator = entry => {
         case "text" :
             return <p>{entry.data}</p>
         case "code" :
-            return <pre><code className="language-javascript">{`${entry.data}`}</code></pre>;
+            return <p className="language-javascript">{`${entry.data}`}</p>;
         default:
             return null;
     }

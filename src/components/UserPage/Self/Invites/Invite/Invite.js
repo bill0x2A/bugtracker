@@ -44,9 +44,9 @@ class Invite extends Component {
                     <div className={classes.InviteBody}>
                         <img src={this.state.image}></img>
                         <span>{this.state.username}</span>
-                        <div>
-                            <button onClick = {this.onAccept} className={classes.Accept}>Accept</button>
-                            <button onClick = {this.onReject} className={classes.Ignore}>Ignore</button>
+                        <div className={classes.Controls}>
+                            <div onClick = {this.onAccept} className={classes.Accept}>Accept</div>
+                            <div onClick = {this.onReject} className={classes.Ignore}>Ignore</div>
                         </div>
                      </div>
                 )}

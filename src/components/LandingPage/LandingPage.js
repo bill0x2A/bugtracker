@@ -13,7 +13,7 @@ const landingPage = ({authUser}) => {
 
             {
                 authUser ? (
-                    <div>
+                    <div className={classes.Splash}>
                     <img src = {defaultImage}/>
                     <h1>Billy's Bugtracker</h1>
                     </div>

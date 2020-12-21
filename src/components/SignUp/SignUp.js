@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { withFirebase } from '../../Firebase/index';
-
+import { connect } from 'react-redux';
 import classes from './SignUp.module.css';
 import * as ROUTES from '../../constants/routes';
+import * as actionTypes from '../../store/actionTypes';
 
 const STARTER_STATE = {
     username : '',
@@ -29,14 +30,23 @@ class SignUpForm extends Component {
         this.props.firebase.doCreateUserWithEmailAndPassword(email, passwordOne)
                             .then( authUser => {
                                this.setState({ ...STARTER_STATE});
+
+                               this.props.login(authUser);
+                               this.props.tutorial();
+                               this.props.firebase.project("example-project-bm6y7rwvb")
+                                                  .child("users")
+                                                  .child(authUser.user.uid)
+                                                  .set(authUser.user.uid);
+
                                this.props.history.push(ROUTES.HOME);
+
+                               //Push a friend request
+
                                return this.props.firebase.user(authUser.user.uid)
                                                          .set({
                                                              username,
                                                              email,
-                                                             projects : [],
-                                                             friends : [],
-                                                             groups : [],
+                                                             projects : {"example-project-bm6y7rwvb" : "example-project-bm6y7rwvb"},
                                                              image : "https://i.imgur.com/99YSV5t.png",
                                                          })
 
@@ -98,4 +108,12 @@ class SignUpForm extends Component {
     }
 }
 
-export default withRouter(withFirebase(SignUpForm));
+const mapDispatchToProps = dispatch => (
+    {
+        login : authUser => dispatch({ type: actionTypes.LOGIN, authUser : authUser}),
+        tutorial : () => dispatch({type: actionTypes.ACTIVATE_TUTORIAL}),
+    }
+)
+
+
+export default connect(null, mapDispatchToProps)(withRouter(withFirebase(SignUpForm)));

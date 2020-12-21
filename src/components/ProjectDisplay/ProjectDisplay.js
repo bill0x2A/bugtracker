@@ -43,14 +43,13 @@ class ProjectDisplay extends Component {
                                    })
             })            
         } catch(e) {
-            console.log(e)
             this.setState({noProjects : true, loading : false});
         }
     }
 
     render(){
         return (
-            <div className ={classes.ProjectsContainer}>
+            <div className={classes.ProjectsContainer}>
                 {this.state.noProjects && <p>This user has no projects yet</p>}
                 {this.state.loading ? <Loading /> : (
                     <React.Fragment>

@@ -18,6 +18,7 @@
     resize: vertical;
     padding: 5px 10px;
     border-radius: 5px;
+    position: relative;
     border: none;
     overflow: auto;
     outline: none;
@@ -46,6 +47,9 @@
     box-shadow: none;
 }
 
+.BugAddForm form {
+    padding : 10px;
+}
 
 
 .UrgencySelector {

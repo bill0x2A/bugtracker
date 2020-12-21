@@ -1,5 +1,6 @@
 .Bug {
-    width: 300px;
+    min-width: 300px;
+    max-width: 400px;
     height: 350px;
     float: left;
     overflow: hidden;

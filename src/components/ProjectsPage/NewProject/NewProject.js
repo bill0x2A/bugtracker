@@ -56,10 +56,14 @@ class AddProjectForm extends Component {
                            .child("friends")
                            .once("value")
                            .then(snap => {
-                               const data = [...Object.values(snap.val())];
-                               this.loadFriendsToState(data);
+                               if(snap.val()){
+                                    const data = [...Object.values(snap.val())];
+                                    this.loadFriendsToState(data);
+                               } else{
+                                    this.setState({noFriends : true});
+                               }
                            })
-    }
+        }
 
     loadFriendsToState = friendIDs => {
         friendIDs.forEach(friendID => {

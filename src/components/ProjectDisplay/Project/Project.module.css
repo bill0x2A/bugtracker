@@ -1,11 +1,11 @@
 .Project {
-    max-width : 500px;
-    min-width : 350px;
+    width: 300px;
     background-color: slategray;
     height : 100px;
     padding : 0px 0px;
     border-radius: 5px;
-
+    float: left;
+    margin: 10px;
 }
 
 .ProjectHeader {

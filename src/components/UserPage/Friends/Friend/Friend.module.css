@@ -13,8 +13,6 @@
 }
 .Friend:hover {
     filter : contrast(130%);
-    transform: translateX(-3px);
-    width: 288px;
 }
 
 .FriendBody {

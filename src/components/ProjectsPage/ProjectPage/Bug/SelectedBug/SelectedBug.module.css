@@ -1,6 +1,6 @@
 .Selected {
     position: relative;
-    width: 100%;
+    width: 98%;
     height: 100%;
     display: block;
     background: lightgray;
@@ -12,7 +12,7 @@
     border-radius: 5px;
 
     color: black;
-
+    margin: 0 5px;
 }
 
 .Selected h3 {

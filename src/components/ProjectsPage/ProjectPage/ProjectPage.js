@@ -16,6 +16,7 @@ const STARTER_STATE = {
     users : [],
     admins : [],
     actions : [],
+    cheat : true,
 }   
 
 
@@ -31,6 +32,10 @@ class ProjectPage extends Component {
 
     componentDidMount() {
         this.loadProjectToState();
+        // This is a very bad practice and I am sorry for doing it
+        setTimeout(() => {
+            this.setState({cheat : !this.state.cheat})
+            }, 500);
     }
 
     userIsMember = () => {

@@ -2,8 +2,8 @@
     position: absolute;
     z-index: 100;
     width: 100vw;
-    height: calc(100% + 100px);
-    top: -100px;
+    height: 100vh;
+    top: 0;
     left : 0;
     background: rgba(0,0,0,0.5);
 

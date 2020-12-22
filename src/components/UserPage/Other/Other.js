@@ -35,7 +35,6 @@ class UserPage extends Component {
                             RESET_STATE.user = dataSnapshot.val();
                             this.setState(RESET_STATE, () => {
                                 this.checkNoProjects();
-                                this.checkNoProjects();
                             });
                         });
     }
@@ -69,9 +68,9 @@ class UserPage extends Component {
             <div className ={classes.Container}>
                 <div className={classes.BasicInfoContainer}>
                     {loadingUser ? <Loading /> : (<React.Fragment>
-                                                                     <img src ={user.image}/>
-                                                                     <h2>{user.username}</h2>
-                                                                   </React.Fragment>)}
+                                                    <img src ={user.image}/>
+                                                    <h2>{user.username}</h2>
+                                                  </React.Fragment>)}
                 </div>
                 <div className={classes.Main}>
                     <div className={classes.ProjectsContainer}>

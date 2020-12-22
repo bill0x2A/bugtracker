@@ -5,7 +5,8 @@
     height: 50px;
     margin-bottom: 10px;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-between;
+    padding : 0 5px;
     border-radius: 5px;
     background-color: var(--bg-accent);
     box-shadow: 2px 2px 3px rgba(0,0,0,0.2);

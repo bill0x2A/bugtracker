@@ -52,6 +52,7 @@
     height : 100%;
     margin-top: 12px;
     margin-left: 15px;
+    margin-right: 10px;
 }
 
 .UserContainer h2 {
@@ -78,6 +79,7 @@
 
 .NotificationContainer h2 {
     margin-top: 0;
+    margin-left: 10px;
     color: var(--text-colour);
 }
 
@@ -134,7 +136,7 @@
     right: 10px;
     padding: 20px;
     border-radius: 50%;
-    background-color: var(--bg-accent);
+    background-color: var(--lighter);
     color : white;
     cursor: pointer;
     transition: all 200ms;
@@ -155,7 +157,7 @@
     border-radius: 4px;
     text-align: center;
     padding : 5px 5px;
-    background: var(--bg);
+    background: var(--lighter);
     transition: all 200ms;
 }
 

@@ -36,8 +36,8 @@
     align-items: center;
     justify-content: center; 
     height: calc(var(--nav-size) * 0.5);
-    border: 3px solid white;
-    color: white;
+    border: 3px solid var(--lighter);
+    color: var(--lightest);
     border-radius: 5px;
     padding : 0 1em;
     margin : 0 0.5em;
@@ -50,6 +50,10 @@
 
 .Navbar a:hover, .Navbar button:hover {
     background-color: rgba(255,255,255,0.2);
+}
+
+.ImageDiv a:hover {
+    background-color: rgba(0,0,0,0) !important;
 }
 
 .NavItemWrapper {

@@ -9,7 +9,7 @@ body {
   font-family: 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #00bab6;
+  background: #222629;
   min-height: 100vh;
   min-width: 435px;
 }
@@ -38,11 +38,11 @@ body::-webkit-scrollbar-thumb {
 
 
 :root {
-  --bg : #203647;
-  --bg2 : #12232E;
-  --bg-accent:#12232E;
-  --lighter : #007CC7;
-  --lightest : #4DA8DA;
+  --bg : #6B6E70;
+  --bg2 : #222629;
+  --bg-accent:#474B4F;
+  --lighter : #61892F;
+  --lightest : #86C232;
   --text-colour: #dadce1;
   --nav-size: 60px;
   --border : 1px solid #474a4d;

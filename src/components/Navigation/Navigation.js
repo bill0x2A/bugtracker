@@ -12,7 +12,11 @@ const Navigation = ({ authUser }) => (
  
 const NavigationAuth = props => (
   <nav className = {classes.Navbar}>
-    <img src = {logo}></img>
+    <div className={classes.ImageDiv}>
+      <Link to={ROUTES.HOME}>
+        <img src = {logo}></img>
+      </Link>
+    </div>
     <div className = {classes.NavbarNav}>
         <Link to={ROUTES.HOME}>
           <i className="fas fa-house-user"></i>

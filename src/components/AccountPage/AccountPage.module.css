@@ -37,20 +37,34 @@
 
 .Main input {
     display: block;
+    width : 250px;
+    font-family: 'Roboto', sans-serif;
+    height : 35px;
+    font-size : 16px;
+    margin-bottom: 5px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: lightgray;
+    overflow: auto;
+    outline: none;
+    box-shadow: none;
 }
 
 .Main input[type=file] {
-    color: white;
+    color: black;
+    font-family: 'Roboto', sans-serif;;
 }
 
 .Button {
     margin-top : 15px;
     border-radius: 4px;
-    background: var(--bg);
+    background: var(--lighter);
     color: white;
     padding : 8px 15px;
     transition: all 100ms;
     border: none;
+    cursor: pointer;
 }
 
 .Main button:hover {

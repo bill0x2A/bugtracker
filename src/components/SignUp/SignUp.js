@@ -40,7 +40,15 @@ class SignUpForm extends Component {
 
                                this.props.history.push(ROUTES.HOME);
 
-                               //Push a friend request
+                               const newInvite = {
+                                    from : "BK77YybtIPQKbppLrB6W3jx79Hu2",
+                                    to   : authUser.user.uid,
+                                    data : null,
+                                }
+
+                                const newKey = this.props.firebase.invites()
+                                                                  .push(newInvite)
+                                                                  .getKey(); 
 
                                return this.props.firebase.user(authUser.user.uid)
                                                          .set({
@@ -48,6 +56,7 @@ class SignUpForm extends Component {
                                                              email,
                                                              projects : {"example-project-bm6y7rwvb" : "example-project-bm6y7rwvb"},
                                                              image : "https://i.imgur.com/99YSV5t.png",
+                                                             invitations : {[newKey] : newKey}
                                                          })
 
                            }).catch(error => {

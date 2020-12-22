@@ -17,6 +17,7 @@ const STARTER_STATE = {
     userIsFriend : false,
     loadingUser : true,
     loadingPP : true,
+    cheat : true,
 }
 
 class HomePage extends Component {
@@ -27,6 +28,11 @@ class HomePage extends Component {
 
     componentDidMount(){
         this.loadUserToState();
+
+        // This is a very bad practice and I am sorry for doing it
+        setTimeout(() => {
+            this.setState({cheat : !this.state.cheat})
+          }, 500);
     }
 
     loadUserToState = () => {

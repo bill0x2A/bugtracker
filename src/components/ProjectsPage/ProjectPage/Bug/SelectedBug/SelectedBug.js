@@ -170,10 +170,6 @@ class CommentAddingForm extends Component {
                 return null;
         }
     }
-    
-    componentDidUpdate(){
-        Prism.highlightAll();
-    }
 
     render(){
         const { entries } = this.state;
@@ -296,6 +292,11 @@ class Bug extends Component {
         this.loadComments();
         this.headerColourSelector();
         this.routeGen();
+        Prism.highlightAll();
+    }
+
+    componentDidUpdate() {
+        Prism.highlightAll();
     }
 
     resolve = () => {

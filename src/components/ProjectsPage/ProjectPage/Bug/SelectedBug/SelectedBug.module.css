@@ -235,10 +235,9 @@ input[type='radio']:checked:after {
     top: 30px;
     right : 0;
     border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-    border : 1px solid black;
     padding : 5px 10px;
     width: 140px;
+    border-top : 2px solid var(--bg);
     background: green;
     color: white;
     z-index: 10;
